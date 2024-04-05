@@ -77,8 +77,9 @@ namespace CustomMath
             float diff_x = left.x - right.x;
             float diff_y = left.y - right.y;
             float diff_z = left.z - right.z;
-            float sqrmag = diff_x * diff_x + diff_y * diff_y + diff_z * diff_z;
-            return sqrmag < epsilon * epsilon;
+
+            return diff_x * diff_x + diff_y * diff_y + diff_z * diff_z // Squared Magnitude of diff
+                < epsilon * epsilon;
         }
         public static bool operator !=(Vec3 left, Vec3 right)
         {
@@ -135,10 +136,8 @@ namespace CustomMath
         }
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
-            Vector3 normalizedVector = vector.normalized;
-            float magnitudeToUse = vector.magnitude > maxLength ? maxLength : vector.magnitude;
-
-            return new Vec3(normalizedVector.x, normalizedVector.y, normalizedVector.z) * magnitudeToUse;
+            return new Vec3(vector.normalized.x, vector.normalized.y, vector.normalized.z) * 
+                 (vector.magnitude > maxLength ? maxLength : vector.magnitude); // Magnitude to use is clamped to max
         }
         public static float Magnitude(Vec3 vector)
         {
@@ -146,18 +145,16 @@ namespace CustomMath
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
-            float xComponent = a.y * b.z - a.z * b.y;
-            float yComponent = a.z * b.x - a.x * b.z;
-            float zComponent = a.x * b.y - a.y * b.x;
-
-            return new Vec3(xComponent, yComponent, zComponent);
+            return new Vec3(
+                a.y * b.z - a.z * b.y,
+                a.z * b.x - a.x * b.z,
+                a.x * b.y - a.y * b.x
+            );
         }
 
         public static float Distance(Vec3 a, Vec3 b)
         {
-            Vec3 substractedVectors = a - b;
-
-            return substractedVectors.magnitude;
+            return (a - b).magnitude;
         }
         public static float Dot(Vec3 a, Vec3 b)
         {
@@ -165,9 +162,7 @@ namespace CustomMath
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
-            float newT = t < 0 ? 0 : (t > 1 ? 1 : t);
-
-            return LerpUnclamped(a, b, newT);
+            return LerpUnclamped(a, b, t < 0 ? 0 : (t > 1 ? 1 : t));
         }
         public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
         {
@@ -175,20 +170,20 @@ namespace CustomMath
         }
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
-            float xComponent = a.x > b.x ? a.x : b.x;
-            float yComponent = a.y > b.y ? a.y : b.y;
-            float zComponent = a.z > b.z ? a.z : b.z;
-
-            return new Vec3(xComponent, yComponent, zComponent);
+            return new Vec3(
+                a.x > b.x ? a.x : b.x,
+                a.y > b.y ? a.y : b.y,
+                a.z > b.z ? a.z : b.z
+            );
 
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
-            float xComponent = a.x < b.x ? a.x : b.x;
-            float yComponent = a.y < b.y ? a.y : b.y;
-            float zComponent = a.z < b.z ? a.z : b.z;
-
-            return new Vec3(xComponent, yComponent, zComponent);
+            return new Vec3(
+                a.x < b.x ? a.x : b.x,
+                a.y < b.y ? a.y : b.y,
+                a.z < b.z ? a.z : b.z
+            );
         }
         public static float SqrMagnitude(Vec3 vector)
         {
@@ -200,7 +195,7 @@ namespace CustomMath
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
         {
-            return inDirection - 2 * (Dot(inDirection, inNormal)) * inNormal;
+            return inDirection - 2.0f * (Dot(inDirection, inNormal)) * inNormal;
         }
         public void Set(float newX, float newY, float newZ)
         {
