@@ -132,6 +132,13 @@ namespace CustomMath
         }
         public static float Angle(Vec3 from, Vec3 to)
         {
+            /*
+             * Obtained from the dot product definition:
+             * 
+             *  |a|.|b|.cos(angle) = a . b
+             *  
+             *  explanation: https://calculo21.com/el-producto-punto/#:~:text=Evaluaci%C3%B3n%20de%20un%20producto%20punto,%E2%88%A5%E2%88%A5v%E2%88%A5cos%CE%B8.
+             */
             return MathF.Acos(Dot(from, to) / (from.magnitude * to.magnitude));
         }
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
@@ -179,6 +186,7 @@ namespace CustomMath
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
+            // See: https://www.youtube.com/watch?v=BaM7OCEm3G0
             return new Vec3(
                 a.x < b.x ? a.x : b.x,
                 a.y < b.y ? a.y : b.y,
