@@ -38,6 +38,11 @@ namespace MathDebbuger
         }
         private static bool ExistKey(string key)
         {
+            if (debuggers == null)
+            {
+                Debug.LogError($"debuggers for key {key} is null");
+                return false;
+            }
             if (!debuggers.ContainsKey(key))
             {
                 Debug.LogError("Find Identifier Failed: The identifier \"" + key + "\" don't exist");
