@@ -133,7 +133,7 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseSeven()
         {
-            return Vec3.Zero;
+            return Vec3.Project(_vector, _anotherVector);
         }
         
         private Vec3 ExcerciseEight()
