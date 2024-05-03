@@ -52,21 +52,21 @@ namespace MathDebbuger
                 case Excercise.Two:
                     return ExcerciseTwo();
                 case Excercise.Three:
-                    return Vec3.Zero;
+                    return ExcerciseThree();
                 case Excercise.Four:
-                    return Vec3.Zero;
+                    return ExcerciseFour();
                 case Excercise.Five:
-                    return Vec3.Zero;
+                    return ExcerciseFive();
                 case Excercise.Six:
-                    return Vec3.Zero;
+                    return ExcerciseSix();
                 case Excercise.Seven:
-                    return Vec3.Zero;
+                    return ExcerciseSeven();
                 case Excercise.Eight:
-                    return Vec3.Zero;
+                    return ExcerciseEight();
                 case Excercise.Nine:
-                    return Vec3.Zero;
+                    return ExcerciseNine();
                 case Excercise.Ten:
-                    return Vec3.Zero;
+                    return ExcerciseTen();
                 default:
                     return Vec3.Zero;
             }
@@ -105,6 +105,50 @@ namespace MathDebbuger
         private Vec3 ExcerciseTwo()
         {
             return _anotherVector - _vector;
+        }
+
+        private Vec3 ExcerciseThree()
+        {
+            Vec3 newVector = _vector;
+            newVector.Scale(_anotherVector);
+
+            return newVector;
+        }
+        
+        private Vec3 ExcerciseFour()
+        {
+            // Preguntar esto, es raro
+            return Vec3.Cross(_anotherVector, _vector);
+        }
+        
+        private Vec3 ExcerciseFive()
+        {
+            return Vec3.Zero;
+        }
+        
+        private Vec3 ExcerciseSix()
+        {
+            return Vec3.Zero;
+        }
+        
+        private Vec3 ExcerciseSeven()
+        {
+            return Vec3.Zero;
+        }
+        
+        private Vec3 ExcerciseEight()
+        {
+            return Vec3.Zero;
+        }
+        
+        private Vec3 ExcerciseNine()
+        {
+            return Vec3.Zero;
+        }
+        
+        private Vec3 ExcerciseTen()
+        {
+            return Vec3.Zero;
         }
         
         IEnumerator UpdateVector()

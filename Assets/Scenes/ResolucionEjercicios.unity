@@ -333,14 +333,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858141020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5899b3b1fa657b44810154516827330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excerciseNumber: 1
-  aVectorValues: {x: 2, y: 2, z: 2}
-  anotherVectorsValues: {x: 3, y: 1, z: 2}
+  excerciseNumber: 3
+  aVectorValues: {x: 2, y: 2, z: 0}
+  anotherVectorsValues: {x: 3, y: 1, z: 0}
 --- !u!4 &1858141022
 Transform:
   m_ObjectHideFlags: 0
