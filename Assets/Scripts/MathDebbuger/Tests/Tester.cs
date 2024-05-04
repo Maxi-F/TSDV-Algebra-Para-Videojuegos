@@ -152,7 +152,7 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseSix()
         {
-            return Vec3.Zero;
+            return Vec3.Max(_vector, _anotherVector);
         }
         
         private Vec3 ExcerciseSeven()
