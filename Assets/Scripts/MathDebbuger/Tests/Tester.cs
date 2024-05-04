@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using CustomMath;
 using UnityEngine;
 
@@ -23,7 +24,9 @@ namespace MathDebbuger
         [SerializeField] private Excercise excerciseNumber;
         [SerializeField] private Vector3 aVectorValues;
         [SerializeField] private Vector3 anotherVectorsValues;
-
+        [SerializeField] private float lerpVelocity = 100f;
+        [SerializeField] private float vectorVelocity = 1f;
+        
         private Vec3 _vector;
         private Vec3 _anotherVector;
         private Vec3 _resultVector;
@@ -41,6 +44,23 @@ namespace MathDebbuger
         private void OnValidate()
         {
             UpdateVectors();
+        }
+
+        private void Update()
+        {
+            switch (excerciseNumber)
+            {
+                case Excercise.Five:
+                    Vec3 direction = _anotherVector - _vector;
+                    _resultVector += direction * vectorVelocity * Time.deltaTime;
+                    
+                    if (Vec3.Distance(_resultVector, _anotherVector) < 0.1f)
+                    {
+                        _resultVector = _vector;
+                    };
+                    UpdateVectorPositions();
+                    break;
+            }
         }
 
         private Vec3 ExcecuteExcercise()
@@ -89,12 +109,16 @@ namespace MathDebbuger
             _vector = new Vec3(aVectorValues.x, aVectorValues.y, aVectorValues.z);
             _anotherVector = new Vec3(anotherVectorsValues.x, anotherVectorsValues.y, anotherVectorsValues.z);
             _resultVector = ExcecuteExcercise();
-            
+
+            UpdateVectorPositions();
+        }
+
+        private void UpdateVectorPositions()
+        {
             Vector3Debugger.UpdatePosition(VectorIdentifier, _vector);
             Vector3Debugger.UpdatePosition(AnotherVectorIdentifier, _anotherVector);
             Vector3Debugger.UpdatePosition(ResultIdentifier, _resultVector);
         }
-
         /* sum of vectors */
         private Vec3 ExcerciseOne()
         {
@@ -123,7 +147,7 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseFive()
         {
-            return Vec3.Zero;
+            return _vector;
         }
         
         private Vec3 ExcerciseSix()
