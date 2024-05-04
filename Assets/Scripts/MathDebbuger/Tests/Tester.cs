@@ -26,10 +26,12 @@ namespace MathDebbuger
         [SerializeField] private Vector3 anotherVectorsValues;
         [SerializeField] private float lerpVelocity = 100f;
         [SerializeField] private float vectorVelocity = 1f;
+        [SerializeField] private float excerciseTenTime = 7f;
         
         private Vec3 _vector;
         private Vec3 _anotherVector;
         private Vec3 _resultVector;
+        private float timeElapsedExcerciseTen = 0f;
     
         private const string VectorIdentifier = "vector1";
         private const string AnotherVectorIdentifier = "vector2";
@@ -37,6 +39,8 @@ namespace MathDebbuger
     
         void Start()
         {
+            Debug.Log(new Vec3(7, 6, 6).normalized);
+            Debug.Log(new Vec3(4.633f, 3.971f, 3.971f).normalized);
             AssignVectors();
         }
     
@@ -58,6 +62,19 @@ namespace MathDebbuger
                     {
                         _resultVector = _vector;
                     };
+                    UpdateVectorPositions();
+                    break;
+                case Excercise.Ten:
+                    Vec3 resultDirection = _vector - _anotherVector;
+                    _resultVector += resultDirection * vectorVelocity * Time.deltaTime;
+                    timeElapsedExcerciseTen += Time.deltaTime;
+
+                    if (timeElapsedExcerciseTen > excerciseTenTime)
+                    {
+                        _resultVector = _anotherVector;
+                        timeElapsedExcerciseTen = 0f;
+                    }
+                    
                     UpdateVectorPositions();
                     break;
             }
@@ -162,7 +179,9 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseEight()
         {
-            return Vec3.Zero;
+            Vec3 sum = _vector + _anotherVector;
+
+            return sum.normalized * Vector3.Distance(_vector, _anotherVector);
         }
         
         private Vec3 ExcerciseNine()
@@ -172,7 +191,8 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseTen()
         {
-            return Vec3.Zero;
+            timeElapsedExcerciseTen = 0f;
+            return _anotherVector;
         }
         
         IEnumerator UpdateVector()
