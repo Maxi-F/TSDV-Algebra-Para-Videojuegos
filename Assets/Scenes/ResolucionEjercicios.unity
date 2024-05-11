@@ -345,6 +345,7 @@ MonoBehaviour:
   vectorFiveVelocity: 1
   vectorTenVelocity: 1
   excerciseTenTime: 10
+  minDistanceToRestartFive: 0.005
 --- !u!4 &1858141022
 Transform:
   m_ObjectHideFlags: 0
