@@ -339,11 +339,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excerciseNumber: 9
-  aVectorValues: {x: 2, y: 2, z: 0}
+  aVectorValues: {x: 1, y: 2, z: 0}
   anotherVectorsValues: {x: 3, y: 2, z: 0}
   lerpVelocity: 1
-  vectorVelocity: 0.93
-  excerciseTenTime: 7
+  vectorFiveVelocity: 1
+  vectorTenVelocity: 1
+  excerciseTenTime: 10
 --- !u!4 &1858141022
 Transform:
   m_ObjectHideFlags: 0

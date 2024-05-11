@@ -25,8 +25,9 @@ namespace MathDebbuger
         [SerializeField] private Vector3 aVectorValues;
         [SerializeField] private Vector3 anotherVectorsValues;
         [SerializeField] private float lerpVelocity = 100f;
-        [SerializeField] private float vectorVelocity = 1f;
-        [SerializeField] private float excerciseTenTime = 7f;
+        [SerializeField] private float vectorFiveVelocity = 1f;
+        [SerializeField] private float vectorTenVelocity = 1.2f;
+        [SerializeField] private float excerciseTenTime = 10f;
         
         private Vec3 _vector;
         private Vec3 _anotherVector;
@@ -56,7 +57,7 @@ namespace MathDebbuger
             {
                 case Excercise.Five:
                     Vec3 direction = _anotherVector - _vector;
-                    _resultVector += direction * vectorVelocity * Time.deltaTime;
+                    _resultVector += direction * vectorFiveVelocity * Time.deltaTime;
                     
                     if (Vec3.Distance(_resultVector, _anotherVector) < 0.1f)
                     {
@@ -66,7 +67,7 @@ namespace MathDebbuger
                     break;
                 case Excercise.Ten:
                     Vec3 resultDirection = _vector - _anotherVector;
-                    _resultVector += resultDirection * vectorVelocity * Time.deltaTime;
+                    _resultVector += resultDirection * vectorTenVelocity * Time.deltaTime;
                     timeElapsedExcerciseTen += Time.deltaTime;
 
                     if (timeElapsedExcerciseTen > excerciseTenTime)
@@ -181,11 +182,13 @@ namespace MathDebbuger
         {
             Vec3 sum = _vector + _anotherVector;
 
-            return sum.normalized * Vector3.Distance(_vector, _anotherVector);
+            return sum.normalized * Vec3.Distance(_vector, _anotherVector);
         }
         
         private Vec3 ExcerciseNine()
         {
+            float angle = Vec3.Angle(_vector, _anotherVector);
+
             return Vec3.Zero;
         }
         

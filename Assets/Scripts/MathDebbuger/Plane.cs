@@ -120,7 +120,7 @@ namespace CustomMath
         // Resumen:
         //     Is a point on the positive side of the plane?
         //
-        // Parámetros:
+        // Parï¿½metros:
         //   point:
         public bool GetSide(Vec3 point)
         {
@@ -130,7 +130,7 @@ namespace CustomMath
         // Resumen:
         //     Are two points on the same side of the plane?
         //
-        // Parámetros:
+        // Parï¿½metros:
         //   inPt0:
         //
         //   inPt1:
@@ -143,7 +143,7 @@ namespace CustomMath
         //     Sets a plane using three points that lie within it. The points go around clockwise
         //     as you look down on the top surface of the plane.
         //
-        // Parámetros:
+        // Parï¿½metros:
         //   a:
         //     First point in clockwise order.
         //
@@ -162,7 +162,7 @@ namespace CustomMath
         //     Sets a plane using a point that lies within it along with a normal to orient
         //     it.
         //
-        // Parámetros:
+        // Parï¿½metros:
         //   inNormal:
         //     The plane's normal vector.
         //
