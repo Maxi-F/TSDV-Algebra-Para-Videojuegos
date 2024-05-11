@@ -28,6 +28,7 @@ namespace MathDebbuger
         [SerializeField] private float vectorFiveVelocity = 1f;
         [SerializeField] private float vectorTenVelocity = 1.2f;
         [SerializeField] private float excerciseTenTime = 10f;
+        [SerializeField] private float minDistanceToRestartFive = 0.01f;
         
         private Vec3 _vector;
         private Vec3 _anotherVector;
@@ -57,10 +58,11 @@ namespace MathDebbuger
                     Vec3 direction = _anotherVector - _vector;
                     _resultVector += direction * vectorFiveVelocity * Time.deltaTime;
                     
-                    if (Vec3.Distance(_resultVector, _anotherVector) < 0.1f)
+                    if (Vec3.Angle(_vector, _anotherVector) < Vec3.Angle(_vector, _resultVector))
                     {
                         _resultVector = _vector;
                     };
+                    
                     UpdateVectorPositions();
                     break;
                 case Excercise.Ten:

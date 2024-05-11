@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &449595562
 Transform:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 642327099, guid: 1d927669d67046449a5672d01b1587a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejercicio: 8
+  ejercicio: 4
   vectorColor: {r: 1, g: 0, b: 0, a: 1}
   a: {x: 0, y: 5, z: 0}
   b: {x: 3, y: 2, z: 0}

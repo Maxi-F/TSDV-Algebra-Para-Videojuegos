@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5899b3b1fa657b44810154516827330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excerciseNumber: 8
+  excerciseNumber: 4
   aVectorValues: {x: 0, y: 5, z: 0}
   anotherVectorsValues: {x: 3, y: 2, z: 0}
   lerpVelocity: 1
