@@ -87,15 +87,15 @@ namespace CustomMath
         //
         // A(A * t + Px) + B(B * t + Py) + C(C * t + Pz) + D = 0
         // A * A * t + APx + B * B * t + BPy + C * C * t + CPz + D = 0
-        // t(A * A + B * B + C * C) = APx + BPy + CPz + D
-        // t = APx + Bpy + CPz + D / A * A + B * B + C * C
+        // t(A * A + B * B + C * C) = - (APx + BPy + CPz + D)
+        // t = - (APx + Bpy + CPz + D / A * A + B * B + C * C)
         //
         // Then, we obtain (A * t + Px), (B * t + Py), (C * t + Pz)
         public Vec3 ClosestPointOnPlane(Vec3 point)
         {
-            float t = Vec3.Dot(_normal, point) + _distance / Vec3.Dot(_normal, _normal);
+            float t = - (Vec3.Dot(_normal, point) + _distance / Vec3.Dot(_normal, _normal));
 
-            return new Vec3(_normal.x * t + point.x, _normal.y * t + point.y, _normal.z + point.z);
+            return new Vec3(_normal.x * t + point.x, _normal.y * t + point.y, _normal.z * t + point.z);
         }
 
         // Makes the plane face in the opposite direction. flips the normal.
