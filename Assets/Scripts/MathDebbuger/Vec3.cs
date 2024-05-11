@@ -186,7 +186,6 @@ namespace CustomMath
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
-            // See: https://www.youtube.com/watch?v=BaM7OCEm3G0
             return new Vec3(
                 a.x < b.x ? a.x : b.x,
                 a.y < b.y ? a.y : b.y,

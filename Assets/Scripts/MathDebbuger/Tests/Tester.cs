@@ -40,8 +40,6 @@ namespace MathDebbuger
     
         void Start()
         {
-            Debug.Log(new Vec3(7, 6, 6).normalized);
-            Debug.Log(new Vec3(4.633f, 3.971f, 3.971f).normalized);
             AssignVectors();
         }
     
@@ -187,9 +185,7 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseNine()
         {
-            float angle = Vec3.Angle(_vector, _anotherVector);
-
-            return Vec3.Zero;
+            return Vec3.Reflect(_vector, _anotherVector.normalized);
         }
         
         private Vec3 ExcerciseTen()
