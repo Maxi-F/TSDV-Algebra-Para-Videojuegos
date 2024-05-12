@@ -54,6 +54,12 @@ namespace CustomMath
         public MyPlane(Vec3 a, Vec3 b, Vec3 c) {
             Set3Points(a, b, c);
         }
+        
+        // Constructors using Vector3 for better usage
+        public MyPlane(Vector3 inNormal, Vector3 inPoint)
+        {
+            SetNormalAndPosition(new Vec3(inNormal), new Vec3(inPoint));
+        }
 
         #endregion
 
@@ -178,6 +184,15 @@ namespace CustomMath
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return "";
+        }
+
+        public void DrawNormal(Vec3 inPoint, float scale)
+        {
+            Gizmos.color = Color.red;
+
+            Vec3 toPoint = inPoint + _normal * scale;
+            
+            Gizmos.DrawLine(inPoint.toVector3(), toPoint.toVector3());
         }
     }
 }

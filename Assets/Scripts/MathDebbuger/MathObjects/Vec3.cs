@@ -240,6 +240,11 @@ namespace CustomMath
         {
             return x.GetHashCode() ^ (y.GetHashCode() << 2) ^ (z.GetHashCode() >> 2);
         }
+
+        public Vector3 toVector3()
+        {
+            return new Vector3(this.x, this.y, this.z);
+        }
         #endregion
     }
 }
