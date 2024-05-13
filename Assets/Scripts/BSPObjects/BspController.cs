@@ -17,6 +17,7 @@ public class BspController : MonoBehaviour
     void Update()
     {
         SetCurrentRoom();
+        Debug.Log(_currentRoom);
     }
 
     private void SetCurrentRoom()
