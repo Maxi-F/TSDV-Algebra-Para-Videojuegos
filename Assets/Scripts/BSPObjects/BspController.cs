@@ -28,7 +28,5 @@ public class BspController : MonoBehaviour
                 _currentRoom = room;
             }
         }
-        
-        Debug.Log(_currentRoom.tag);
     }
 }
