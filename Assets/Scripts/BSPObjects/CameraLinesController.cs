@@ -11,6 +11,7 @@ namespace BSPObjects
         [SerializeField] private int linesQuantity = 5;
         [SerializeField] private float lineDistance = 10.0f;
         [SerializeField] private float pointsDistance = 2.5f;
+        [SerializeField] private UInt16 maxBinarySearchTries = 5;
         
         private float _amplitudeDistance;
         private List<Line> _lines = new List<Line>(); 
@@ -49,7 +50,7 @@ namespace BSPObjects
             _lines = new List<Line>();
             DoWithLines((newPosition, newEndPosition, pointsQuantity, i) =>
             {
-                _lines.Add(new Line(newPosition, newEndPosition, pointsQuantity));
+                _lines.Add(new Line(newPosition, newEndPosition, pointsQuantity, maxBinarySearchTries));
             });
         }
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CustomMath;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BSPObjects
@@ -11,10 +10,12 @@ namespace BSPObjects
         private List<Vec3> _points;
         private Vec3 _start;
         private Vec3 _end;
+        private int maxTries;
     
-        public Line(Vec3 start, Vec3 end, int pointsQuantity)
+        public Line(Vec3 start, Vec3 end, int pointsQuantity, int maxBinarySearchTries)
         {
             SetValues(start, end, pointsQuantity);
+            maxTries = maxBinarySearchTries;
         }
 
         public void SetValues(Vec3 start, Vec3 end, int pointsQuantity)
@@ -43,16 +44,16 @@ namespace BSPObjects
         public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms, int startIndex = 0)
         {
             List<Room> roomsInLine = new List<Room>();
-
+            
             for(int i = startIndex; i < _points.Count; i++)
             {
                 if(currentRoom.IsPointInsideRoom(_points[i])) continue;
-                // Debug.Log($"Found point not in current room!");
+               
                 foreach (var room in rooms)
                 {
                     if (room.IsPointInsideRoom(_points[i]))
                     {
-                        if (currentRoom.IsRoomAdjacent(room))
+                        if (currentRoom.IsRoomAdjacent(room) || roomsInLine.Exists(adjacentRoom => adjacentRoom.IsRoomAdjacent(room)))
                         {
                             roomsInLine.Add(room);
 
@@ -61,7 +62,15 @@ namespace BSPObjects
                         }
                         else
                         {
-                            // TODO Binary search between non adjacent rooms
+                            if (i == 0) continue;
+                            Debug.Log($"Calculating recursive with point ${i}");
+                            roomsInLine.AddRange(GetRoomsConnection(
+                                currentRoom,
+                                room,
+                                rooms,
+                                new []{_points[i - 1], _points[i]},
+                                this.maxTries
+                                ));
                         }
                     }
                 }
@@ -69,15 +78,63 @@ namespace BSPObjects
 
             return roomsInLine.ToArray();
         }
+        
+        private Room[] GetRoomsConnection(
+            Room initialRoom,
+            Room endRoom, 
+            Room[] rooms,
+            Vec3[] pointsToCheckInBetween,
+            int maxBinarySearchTries
+            )
+        {
+            List<Room> connectedRooms = new List<Room>();
+            if (maxBinarySearchTries <= 0) return connectedRooms.ToArray();
+            
+            Vec3 pointInBetween = Vec3.Lerp(pointsToCheckInBetween[0], pointsToCheckInBetween[1], 0.5f);
+
+            if (initialRoom.IsPointInsideRoom(pointInBetween))
+            {
+                return GetRoomsConnection(
+                    initialRoom,
+                    endRoom,
+                    rooms,
+                    new[] { pointInBetween, pointsToCheckInBetween[1] },
+                    maxBinarySearchTries - 1)
+                    ;
+            } else if (endRoom.IsPointInsideRoom(pointInBetween))
+            {
+                return GetRoomsConnection(
+                    initialRoom,
+                    endRoom,
+                    rooms,
+                    new[] { pointsToCheckInBetween[1], pointInBetween },
+                    maxBinarySearchTries - 1
+                    );
+            }
+            
+            foreach (var room in rooms)
+            {
+                if (room.IsPointInsideRoom(pointInBetween))
+                {
+                    if (initialRoom.IsRoomAdjacent(room) && room.IsRoomAdjacent(endRoom))
+                    {
+                        Room[] roomsToAdd = new[] { initialRoom, room, endRoom };
+                        connectedRooms.AddRange(roomsToAdd);
+                    }
+                }
+            }
+            
+            return connectedRooms.ToArray();
+        }
 
         private void DoWithPoints(int pointsQuantity, Action<Vec3, int> action)
         {
             float distance = Vec3.Distance(_start, _end);
             float inBetweenPercentage = 1.0f / pointsQuantity;
         
-            for (int i = 0; i < pointsQuantity; i++)
+            for (int i = 0; i <= pointsQuantity; i++)
             {
-                Vec3 place = Vec3.Lerp(_start, _end, inBetweenPercentage * (i + 1));
+                Vec3 place = Vec3.Lerp(_start, _end, inBetweenPercentage * i);
 
                 action(place, i);
             }
