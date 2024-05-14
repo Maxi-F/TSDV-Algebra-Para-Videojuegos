@@ -41,13 +41,13 @@ public class BspController : MonoBehaviour
         
         foreach (var room in rooms)
         {
-            if (Array.Exists(activeRooms, activeRoom => room == activeRoom))
+            if (room == _currentRoom || Array.Exists(activeRooms, activeRoom => room.CompareTag(activeRoom.tag)))
             {
-               
+               room.ActivateMesh();
             }
             else
             {
-                
+                room.DeactivateMesh();
             }
         }
     }

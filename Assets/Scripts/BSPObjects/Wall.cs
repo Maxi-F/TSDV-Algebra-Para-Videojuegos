@@ -24,7 +24,7 @@ public class Wall : MonoBehaviour
     {
         return _plane.GetSide(point);
     }
-
+    
     private void OnDrawGizmos()
     {
         if(Application.isPlaying) 

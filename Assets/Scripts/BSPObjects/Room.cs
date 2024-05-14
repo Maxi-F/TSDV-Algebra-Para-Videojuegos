@@ -8,7 +8,8 @@ public class Room : MonoBehaviour
 {
     private Wall[] _walls;
     [SerializeField] private Room[] _adjacentRooms;
-    
+
+    private bool _isActive = true;
     void Start()
     {
         _walls = GetComponentsInChildren<Wall>();
@@ -32,5 +33,33 @@ public class Room : MonoBehaviour
     public bool IsRoomAdjacent(Room room)
     {
         return Array.Exists(_adjacentRooms, adjacentRoom => adjacentRoom.CompareTag(room.tag));
+    }
+
+    public void DeactivateMesh()
+    {
+        if (!_isActive) return;
+
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.enabled = false;
+        }
+
+        _isActive = false;
+    }
+
+    public void ActivateMesh()
+    {
+        if (_isActive) return;
+
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.enabled = true;
+        }
+
+        _isActive = true;
     }
 }
