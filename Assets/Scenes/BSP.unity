@@ -345,6 +345,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057113444fc7cea4ea73969863cb2bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rooms:
+  - {fileID: 1819850041}
+  - {fileID: 1031574525}
+  - {fileID: 1016203436}
+  - {fileID: 2029946875}
+  - {fileID: 496049375}
+  - {fileID: 402268930}
+  _playerPosition: {fileID: 912346176}
 --- !u!114 &496049375 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1236325016043417293, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
@@ -460,8 +468,9 @@ GameObject:
   - component: {fileID: 912346175}
   - component: {fileID: 912346174}
   - component: {fileID: 912346173}
+  - component: {fileID: 912346177}
   m_Layer: 0
-  m_Name: CameraController
+  m_Name: PlayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,13 +556,29 @@ Transform:
   m_GameObject: {fileID: 912346172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.20771894, y: 1.69, z: 12.56}
+  m_LocalPosition: {x: -11.73, y: 1.69, z: 13.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 829886381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912346177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912346172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd9b01bf3f10b148b1995c2f2f4afdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 90
+  linesQuantity: 5
+  lineDistance: 10
+  pointsDistance: 2.09
 --- !u!1001 &930901841
 PrefabInstance:
   m_ObjectHideFlags: 0

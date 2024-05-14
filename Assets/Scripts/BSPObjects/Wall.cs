@@ -20,6 +20,11 @@ public class Wall : MonoBehaviour
         return _plane.GetSide(new Vec3(player.position));
     }
 
+    public bool IsPointInNormalSide(Vec3 point)
+    {
+        return _plane.GetSide(point);
+    }
+
     private void OnDrawGizmos()
     {
         if(Application.isPlaying) 

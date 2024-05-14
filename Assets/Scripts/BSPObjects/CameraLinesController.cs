@@ -24,13 +24,45 @@ namespace BSPObjects
         // Update is called once per frame
         void Update()
         {
+            UpdateLines();
+        }
+
+        public Room[] GetSeenRooms(Room currentRoom, Room[] rooms)
+        {
+            List<Room> activeRooms = new List<Room>();
+            foreach (var line in _lines)
+            {
+                Room[] activeRoomsInLine = line.GetRoomsInLine(currentRoom, rooms);
+                activeRooms.AddRange(activeRoomsInLine);
+            }
+
+            return activeRooms.ToArray();
+        }
+
+        private void OnValidate()
+        {
             SetLines();
         }
 
         private void SetLines()
         {
-            // -1 because we want to set a distance for quantity - 1 angles.
             _lines = new List<Line>();
+            DoWithLines((newPosition, newEndPosition, pointsQuantity, i) =>
+            {
+                _lines.Add(new Line(newPosition, newEndPosition, pointsQuantity));
+            });
+        }
+
+        private void UpdateLines()
+        {
+            DoWithLines((newPosition, newEndPosition, pointsQuantity, i) =>
+            {
+                _lines[i].UpdateValues(newPosition, newEndPosition, pointsQuantity);
+            });
+        }
+
+        private void DoWithLines(Action<Vec3, Vec3, int, int> action)
+        {
             _amplitudeDistance = amplitude / (linesQuantity - 1);
             float angleToUse = (180 - amplitude) / 2; 
             
@@ -41,17 +73,21 @@ namespace BSPObjects
 
                 Vector3 toPoint = transform.position + xDistance * transform.right + yDistance * transform.forward;
 
-                _lines.Add(new Line(new Vec3(transform.position), new Vec3(toPoint), (int)(lineDistance / pointsDistance)));
+                action(new Vec3(transform.position), new Vec3(toPoint), (int)(lineDistance / pointsDistance), i);
                 
                 angleToUse += _amplitudeDistance;
             }
         }
         
+        
         private void OnDrawGizmos()
         {
-            foreach (var line in _lines)
+            if (Application.isPlaying)
             {
-                line.DrawLine();
+                foreach (var line in _lines)
+                {
+                    line.DrawLine();
+                }
             }
         }
     }
