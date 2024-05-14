@@ -40,21 +40,24 @@ namespace BSPObjects
             DoWithPoints(pointsQuantity, (newPlace, i) => {  _points.Add(new Vec3(newPlace)); });
         }
 
-        public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms)
+        public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms, int startIndex = 0)
         {
             List<Room> roomsInLine = new List<Room>();
 
-            foreach (var point in _points)
+            for(int i = startIndex; i < _points.Count; i++)
             {
-                if(currentRoom.IsPointInsideRoom(point)) continue;
+                if(currentRoom.IsPointInsideRoom(_points[i])) continue;
                 // Debug.Log($"Found point not in current room!");
                 foreach (var room in rooms)
                 {
-                    if (room.IsPointInsideRoom(point))
+                    if (room.IsPointInsideRoom(_points[i]))
                     {
                         if (currentRoom.IsRoomAdjacent(room))
                         {
                             roomsInLine.Add(room);
+
+                            Room[] adjacentRoomsToSeenOne = GetRoomsInLine(room, rooms, i);
+                            roomsInLine.AddRange(adjacentRoomsToSeenOne);
                         }
                         else
                         {
