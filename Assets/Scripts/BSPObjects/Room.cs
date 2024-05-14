@@ -21,7 +21,7 @@ public class Room : MonoBehaviour
         {
             _walls = GetComponentsInChildren<Wall>();
         }
-
+        
         return Array.TrueForAll(_walls, wall => wall.IsPlayerInNormalSide(player));
     }
 

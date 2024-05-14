@@ -37,6 +37,8 @@ public class BspController : MonoBehaviour
 
     private void CheckAdjacentRooms()
     {
+        if (!_currentRoom) return;
+        
         Room[] activeRooms = cameraLinesController.GetSeenRooms(_currentRoom, rooms);
         
         foreach (var room in rooms)
