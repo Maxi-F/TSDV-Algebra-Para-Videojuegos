@@ -53,9 +53,14 @@ namespace BSPObjects
                 {
                     if (room.IsPointInsideRoom(_points[i]))
                     {
-                        Wall intersectingWall = room.GetIntersectedWall(_points[0], _points[i]);
-                        Debug.Log(intersectingWall);
-                        if (!intersectingWall.IntersectsWithOverture(_points[i])) return roomsInLine.ToArray();
+                        if (!roomsInLine.Exists(roomAlreadyInLine => roomAlreadyInLine == room))
+                        {
+                            Wall intersectingWall = room.GetIntersectedWall(i - 1 == -1 ? _points[0] : _points[i - 1], _points[i]);
+                            if (!intersectingWall ||
+                                !intersectingWall.IntersectsWithOverture(i - 1 == -1 ? _points[0] : _points[i - 1]) || 
+                                !intersectingWall.IntersectsWithOverture(_points[i])) return roomsInLine.ToArray();
+                        }
+                        
                         if (currentRoom.IsRoomAdjacent(room) || roomsInLine.Exists(adjacentRoom => adjacentRoom.IsRoomAdjacent(room)))
                         {
                             roomsInLine.Add(room);
@@ -66,7 +71,6 @@ namespace BSPObjects
                         else
                         {
                             if (i == 0) continue;
-                            Debug.Log($"Calculating recursive with point ${i}");
                             roomsInLine.AddRange(GetRoomsConnection(
                                 currentRoom,
                                 room,
