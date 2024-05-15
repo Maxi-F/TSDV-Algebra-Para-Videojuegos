@@ -62,4 +62,9 @@ public class Room : MonoBehaviour
 
         _isActive = true;
     }
+
+    public bool LineIntersectsWall(Vec3 point)
+    {
+        return !Array.Exists(_walls, wall => wall.IntersectsWithOverture(point));
+    }
 }

@@ -17,7 +17,7 @@ public class BspController : MonoBehaviour
     {
         SetCurrentRoom();
     }
-    // test
+
     void Update()
     {
         SetCurrentRoom();

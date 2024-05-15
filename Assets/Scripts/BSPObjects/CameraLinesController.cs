@@ -34,6 +34,7 @@ namespace BSPObjects
             foreach (var line in _lines)
             {
                 Room[] activeRoomsInLine = line.GetRoomsInLine(currentRoom, rooms);
+                if(activeRoomsInLine == null) continue;
                 activeRooms.AddRange(activeRoomsInLine);
             }
 
