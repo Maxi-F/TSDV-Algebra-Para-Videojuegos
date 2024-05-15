@@ -53,7 +53,9 @@ namespace BSPObjects
                 {
                     if (room.IsPointInsideRoom(_points[i]))
                     {
-                        if (room.LineIntersectsWall(_points[i])) return roomsInLine.ToArray();
+                        Wall intersectingWall = room.GetIntersectedWall(_points[0], _points[i]);
+                        Debug.Log(intersectingWall);
+                        if (!intersectingWall.IntersectsWithOverture(_points[i])) return roomsInLine.ToArray();
                         if (currentRoom.IsRoomAdjacent(room) || roomsInLine.Exists(adjacentRoom => adjacentRoom.IsRoomAdjacent(room)))
                         {
                             roomsInLine.Add(room);

@@ -35,6 +35,11 @@ public class Wall : MonoBehaviour
 
     }
 
+    public bool HasLineInBetween(Vec3 from, Vec3 to)
+    {
+        return !_plane.SameSide(from, to);
+    }
+    
     public bool IntersectsWithOverture(Vec3 point)
     {
         
