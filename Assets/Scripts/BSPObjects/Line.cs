@@ -16,8 +16,7 @@ namespace BSPObjects
         {
             SetValues(start, end, pointsQuantity);
             maxTries = maxBinarySearchTries;
-        }
-
+        }   //asd
         public void SetValues(Vec3 start, Vec3 end, int pointsQuantity)
         {
             _start = start;
@@ -57,8 +56,8 @@ namespace BSPObjects
                         {
                             Wall intersectingWall = room.GetIntersectedWall(i - 1 == -1 ? _points[0] : _points[i - 1], _points[i]);
                             if (!intersectingWall ||
-                                !intersectingWall.IntersectsWithOverture(i - 1 == -1 ? _points[0] : _points[i - 1]) ||
-                                !intersectingWall.IntersectsWithOverture(_points[i])) return roomsInLine.ToArray();
+                                (!intersectingWall.IntersectsWithOverture(i - 1 == -1 ? _points[0] : _points[i - 1]) && 
+                                 !intersectingWall.IntersectsWithOverture(_points[i]))) return roomsInLine.ToArray();
                         }
                         
                         if (currentRoom.IsRoomAdjacent(room) || roomsInLine.Exists(adjacentRoom => adjacentRoom.IsRoomAdjacent(room)))

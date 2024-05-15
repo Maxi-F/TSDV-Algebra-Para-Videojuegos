@@ -7,25 +7,31 @@ namespace BSPObjects
 {
     public class CameraLinesController : MonoBehaviour
     {
-        [SerializeField] private float amplitude = 60f;
-        [SerializeField] private int linesQuantity = 5;
+        [SerializeField] private float screenWidth = 1920f;
+        [SerializeField] private float screenHeight = 1080f;
+        
+        [SerializeField] private float fieldOfViewAngle = 90f;
+        private float _verticalFieldOfViewAngle;
+        
+        [SerializeField] private float amplitudeBetweenLines = 5.0f;
+        
         [SerializeField] private float lineDistance = 10.0f;
+        
         [SerializeField] private float pointsDistance = 2.5f;
+        
         [SerializeField] private UInt16 maxBinarySearchTries = 5;
         
         private float _amplitudeDistance;
         private List<Line> _lines = new List<Line>(); 
         
-        // Start is called before the first frame update
         void Start()
         {
             SetLines();
         }
-
-        // Update is called once per frame
+        
         void Update()
         {
-            UpdateLines();
+            SetLines();
         }
 
         public Room[] GetSeenRooms(Room currentRoom, Room[] rooms)
@@ -65,19 +71,36 @@ namespace BSPObjects
 
         private void DoWithLines(Action<Vec3, Vec3, int, int> action)
         {
-            _amplitudeDistance = amplitude / (linesQuantity - 1);
-            float angleToUse = (180 - amplitude) / 2; 
+            float aspectRatio = screenWidth / screenHeight;
+            _verticalFieldOfViewAngle = fieldOfViewAngle / aspectRatio;
+
+            int linesQuantityWidth = (int) (fieldOfViewAngle / amplitudeBetweenLines);
+            int linesQuantityHeight = (int) (_verticalFieldOfViewAngle / amplitudeBetweenLines);
             
-            for (int i = 0; i < linesQuantity; i++)
+            float angleToUseInWidth = 90 - fieldOfViewAngle / 2;
+            
+            for (int i = 0; i < linesQuantityWidth; i++)
             {
-                float xDistance = Mathf.Cos(angleToUse * Mathf.Deg2Rad) * lineDistance;
-                float yDistance = Mathf.Sin(angleToUse * Mathf.Deg2Rad) * lineDistance;
+                float xDistance = Mathf.Cos(angleToUseInWidth * Mathf.Deg2Rad) * lineDistance;
+                float zDistance = Mathf.Sin(angleToUseInWidth * Mathf.Deg2Rad) * lineDistance;
 
-                Vector3 toPoint = transform.position + xDistance * transform.right + yDistance * transform.forward;
+                float angleToUseInHeight = - _verticalFieldOfViewAngle / 2;
+                for (int j = 0; j < linesQuantityHeight; j++)
+                {
+                    float yDistance = Mathf.Sin(angleToUseInHeight * Mathf.Deg2Rad) * lineDistance;
+                    
+                    Vector3 toPoint = transform.position + 
+                                      xDistance * transform.right +
+                                      yDistance * transform.up +
+                                      zDistance * transform.forward;
+                    
+                    
+                    action(new Vec3(transform.position), new Vec3(toPoint), (int)(lineDistance / pointsDistance), i);
 
-                action(new Vec3(transform.position), new Vec3(toPoint), (int)(lineDistance / pointsDistance), i);
+                    angleToUseInHeight += amplitudeBetweenLines;
+                }
                 
-                angleToUse += _amplitudeDistance;
+                angleToUseInWidth += amplitudeBetweenLines;
             }
         }
         
