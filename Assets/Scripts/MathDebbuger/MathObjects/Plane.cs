@@ -193,6 +193,7 @@ namespace CustomMath
             Vec3 toPoint = inPoint + _normal * scale;
             
             Gizmos.DrawLine(inPoint.toVector3(), toPoint.toVector3());
+            Gizmos.DrawSphere(toPoint.toVector3(), 0.1f);
         }
     }
 }
