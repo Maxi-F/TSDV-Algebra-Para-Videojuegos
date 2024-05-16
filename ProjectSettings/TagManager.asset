@@ -10,6 +10,9 @@ TagManager:
   - RoomD
   - RoomE
   - RoomF
+  - RoomG
+  - RoomH
+  - RoomI
   layers:
   - Default
   - TransparentFX
