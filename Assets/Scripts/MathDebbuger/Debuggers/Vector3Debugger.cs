@@ -40,7 +40,6 @@ namespace MathDebbuger
         {
             if (debuggers == null)
             {
-                Debug.LogError($"debuggers for key {key} is null");
                 return false;
             }
             if (!debuggers.ContainsKey(key))

@@ -196,14 +196,22 @@ namespace CustomMath
         {
             return vector.sqrMagnitude;
         }
+
+        // Derives from scalar projection, trigonometrically -> s = |A|.cos(angleBetweenAandB).
+        // also S could be defined as s = |A|.|B|.cos(angle) / |B| => projection is S = s * n
         public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
             return (Dot(vector, onNormal) / onNormal.magnitude) * onNormal.normalized;
         }
+
+
+        // derived from http://www.sunshine2k.de/articles/coding/vectorreflection/vectorreflection.html
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
         {
             return inDirection - 2.0f * (Dot(inDirection, inNormal)) * inNormal;
         }
+
+
         public void Set(float newX, float newY, float newZ)
         {
             this.x = newX;

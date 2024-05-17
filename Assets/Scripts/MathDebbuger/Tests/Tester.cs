@@ -24,12 +24,9 @@ namespace MathDebbuger
         [SerializeField] private Excercise excerciseNumber;
         [SerializeField] private Vector3 aVectorValues;
         [SerializeField] private Vector3 anotherVectorsValues;
-        [SerializeField] private float lerpVelocity = 100f;
         [SerializeField] private float vectorFiveVelocity = 1f;
         [SerializeField] private float vectorTenVelocity = 1.2f;
         [SerializeField] private float excerciseTenTime = 10f;
-        [SerializeField] private float minDistanceToRestartFive = 0.01f;
-        
         private Vec3 _vector;
         private Vec3 _anotherVector;
         private Vec3 _resultVector;
@@ -43,11 +40,11 @@ namespace MathDebbuger
         {
             AssignVectors();
         }
-    
-        // Update is called once per frame
+
         private void OnValidate()
         {
-            UpdateVectors();
+            if(Application.isPlaying)
+                UpdateVectors();
         }
 
         private void Update()
@@ -159,7 +156,6 @@ namespace MathDebbuger
         
         private Vec3 ExcerciseFour()
         {
-            // Preguntar esto, es raro
             return Vec3.Cross(_anotherVector, _vector);
         }
         

@@ -122,58 +122,28 @@ namespace CustomMath
         {
             return Vec3.Dot(_normal, point) + _distance;
         }
-        //
-        // Resumen:
-        //     Is a point on the positive side of the plane?
-        //
-        // Par�metros:
-        //   point:
+        // Is a point on the positive side of the plane?
         public bool GetSide(Vec3 point)
         {
             return Vec3.Dot(_normal, point) + _distance > 0;
         }
-        //
-        // Resumen:
-        //     Are two points on the same side of the plane?
-        //
-        // Par�metros:
-        //   inPt0:
-        //
-        //   inPt1:
+        
+        // Are two points on the same side of the plane?
         public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
             return GetSide(inPt0) == GetSide(inPt1);
         }
-        //
-        // Resumen:
-        //     Sets a plane using three points that lie within it. The points go around clockwise
-        //     as you look down on the top surface of the plane.
-        //
-        // Par�metros:
-        //   a:
-        //     First point in clockwise order.
-        //
-        //   b:
-        //     Second point in clockwise order.
-        //
-        //   c:
-        //     Third point in clockwise order.
+        
+        // Sets a plane using three points that lie within it. The points go around clockwise
+        // as you look down on the top surface of the plane.
         public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {
             normal = Vec3.Cross(b - a, c - b).normalized;
             _distance = GetDCoefficient(normal, a);
         }
-        //
-        // Resumen:
-        //     Sets a plane using a point that lies within it along with a normal to orient
-        //     it.
-        //
-        // Par�metros:
-        //   inNormal:
-        //     The plane's normal vector.
-        //
-        //   inPoint:
-        //     A point that lies on the plane.
+
+        // Sets a plane using a point that lies within it along with a normal to orient
+        // it.
         public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
             normal = inNormal.normalized;
