@@ -97,15 +97,15 @@ namespace CustomMath
             get => MyQuaternion.IdentityQuaternion;
         }
 
-        public Quaternion normalized
+        public MyQuaternion normalized
         {
-            get => throw new NotImplementedException();
+            get => MyQuaternion.Normalize(this);
         }
         
         #endregion
 
         #region functions
-
+        
         // Creates a rotation which rotates from fromDirection to toDirection
         public static MyQuaternion FromToRotation(Vector3 fromDirection, Vector3 toDirection)
         {
@@ -208,7 +208,13 @@ namespace CustomMath
         // Converts this quaternion to one with the same orientation but with a magnitude of 1
         public static MyQuaternion Normalize(MyQuaternion q)
         {
-            throw new NotImplementedException();
+            float squaredMagnitude = MyQuaternion.Dot(q, q);
+            return new MyQuaternion(q.x / squaredMagnitude, q.y / squaredMagnitude, q.z / squaredMagnitude, q.w / squaredMagnitude);
+        }
+
+        public static float Dot(MyQuaternion lhs, MyQuaternion rhs)
+        {
+            return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
         }
         
         #endregion
