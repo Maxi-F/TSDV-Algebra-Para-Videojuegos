@@ -111,12 +111,6 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
-
-        // Returns the Inverse of rotation.
-        public static MyQuaternion Inverse(MyQuaternion rotation)
-        {
-            throw new NotImplementedException();
-        }
         
         // Spherically interpolates between quaternions a and b by ratio t. The parameter t is clamped to the range [0, 1]
         // returns A quaternion spherically interpolated between quaternions a and b.
@@ -205,10 +199,26 @@ namespace CustomMath
             throw new NotImplementedException();
         }
 
+        public float SquaredMagnitude()
+        {
+            return MyQuaternion.Dot(this, this);
+        }
+        
+        public static MyQuaternion Conjugated(MyQuaternion q)
+        {
+            return new MyQuaternion(-q.x, -q.y, -q.z, q.w);
+        }
+
+        // Returns the inverse rotation
+        public static MyQuaternion Inverse(MyQuaternion q)
+        {
+            return MyQuaternion.Conjugated(q) / q.SquaredMagnitude();
+        }
+        
         // Converts this quaternion to one with the same orientation but with a magnitude of 1
         public static MyQuaternion Normalize(MyQuaternion q)
         {
-            float squaredMagnitude = MyQuaternion.Dot(q, q);
+            float squaredMagnitude = q.SquaredMagnitude();
             return new MyQuaternion(q.x / squaredMagnitude, q.y / squaredMagnitude, q.z / squaredMagnitude, q.w / squaredMagnitude);
         }
 
@@ -231,8 +241,30 @@ namespace CustomMath
                 lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
             );
         }
-        public static Vector3 operator *(MyQuaternion rotation, Vector3 point) { throw new NotImplementedException(); }
-        public static bool operator ==(MyQuaternion lhs, MyQuaternion rhs) { throw new NotImplementedException(); }
+
+        // Preguntar esto
+        public static Vec3 operator *(MyQuaternion rotation, Vec3 point)
+        {
+            MyQuaternion pureVectorQuaternion = new MyQuaternion(point.x, point.y, point.z, 0);
+            MyQuaternion appliedPureQuaternion = MyQuaternion.Conjugated(rotation) * pureVectorQuaternion * rotation;
+
+            return new Vec3(appliedPureQuaternion.x, appliedPureQuaternion.y, appliedPureQuaternion.z);
+        }
+
+        public static bool operator ==(MyQuaternion lhs, MyQuaternion rhs)
+        {
+            return MyQuaternion.Dot(lhs, rhs) > 1 - KEpsilon;
+        }
+
+        public static MyQuaternion operator /(MyQuaternion q, float value)
+        {
+            return new MyQuaternion(
+                q.x / value,
+                q.y / value,
+                q.z / value,
+                q.w / value
+                );
+        }
         public static bool operator !=(MyQuaternion lhs, MyQuaternion rhs) => !(lhs == rhs);
         public override bool Equals(object other) {
             if (ReferenceEquals(null, other)) return false;
