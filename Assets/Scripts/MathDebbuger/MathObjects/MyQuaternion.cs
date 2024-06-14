@@ -194,12 +194,20 @@ namespace CustomMath
         // returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
         public static MyQuaternion Euler(float x, float y, float z)
         {
-            throw new NotImplementedException();
+            MyQuaternion quaternion = MyQuaternion.Identity;
+            
+            quaternion.eulerAngles.Set(x, y, z);
+
+            return quaternion;
         }
 
         public static MyQuaternion Euler(Vector3 euler)
         {
-            throw new NotImplementedException();
+            MyQuaternion quaternion = MyQuaternion.Identity;
+            
+            quaternion.eulerAngles.Set(euler.x, euler.y, euler.z);
+
+            return quaternion;
         }
 
         public void ToAngleAxis(out float angle, out Vector3 axis)
