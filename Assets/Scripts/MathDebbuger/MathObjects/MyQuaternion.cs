@@ -145,7 +145,7 @@ namespace CustomMath
         }
 
         // Creates a rotation which rotates angle degrees around axis.
-        public static Quaternion AngleAxis(float angle, Vector3 axis)
+        public static MyQuaternion AngleAxis(float angle, Vector3 axis)
         {
             throw new NotImplementedException();
         }
@@ -221,8 +221,16 @@ namespace CustomMath
         
 
         #region operators
-        
-        public static MyQuaternion operator *(MyQuaternion lhs, MyQuaternion rhs) { throw new NotImplementedException(); }
+
+        public static MyQuaternion operator *(MyQuaternion lhs, MyQuaternion rhs)
+        {
+            return new MyQuaternion(
+                lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
+                lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x,
+                lhs.w * rhs.z	+ lhs.x * rhs.y	- lhs.y * rhs.x	+ lhs.z * rhs.w,
+                lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
+            );
+        }
         public static Vector3 operator *(MyQuaternion rotation, Vector3 point) { throw new NotImplementedException(); }
         public static bool operator ==(MyQuaternion lhs, MyQuaternion rhs) { throw new NotImplementedException(); }
         public static bool operator !=(MyQuaternion lhs, MyQuaternion rhs) => !(lhs == rhs);
