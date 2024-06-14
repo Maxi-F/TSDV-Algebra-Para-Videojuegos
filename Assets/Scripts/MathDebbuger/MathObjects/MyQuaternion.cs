@@ -86,10 +86,30 @@ namespace CustomMath
         #region Getters
 
         // Returns or sets the euler angle representation of the rotation.
-        public Vector3 eulerAngles
+        // These can be obtained from the rotation matrices and application Z, Y, and X in that order. 
+        public Vec3 eulerAngles
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => new Vec3(
+                Mathf.Atan2(2 * (this.w * this.x + this.y * this.z), 1 - 2 * (this.x * this.x + this.y * this.y)) * Mathf.Rad2Deg,
+                 Mathf.Asin(2 * (this.w * this.x - this.y * this.z)) * Mathf.Rad2Deg,
+                Mathf.Atan2(2 * (this.w * this.y + this.x * this.z),1 - 2 * (this.x * this.x + this.y * this.y)) * Mathf.Rad2Deg
+                );
+            set
+            {
+                Vec3 anglesInRadians = value * Mathf.Deg2Rad;
+                
+                float cosRoll = Mathf.Cos((float) (anglesInRadians.x * 0.5));
+                float sinRoll = Mathf.Sin((float) (anglesInRadians.x * 0.5));
+                float cosPitch = Mathf.Cos((float) (anglesInRadians.y * 0.5));
+                float sinPitch = Mathf.Sin((float) (anglesInRadians.y * 0.5));
+                float cosYaw = Mathf.Cos((float) (anglesInRadians.z * 0.5));
+                float sinYaw = Mathf.Sin((float) (anglesInRadians.z * 0.5));
+                
+                this.x = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw;
+                this.y = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
+                this.z = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
+                this.w = cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw;
+            }
         }
 
         public static MyQuaternion Identity
