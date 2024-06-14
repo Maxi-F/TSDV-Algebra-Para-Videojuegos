@@ -241,12 +241,11 @@ namespace CustomMath
                 lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
             );
         }
-
-        // Preguntar esto
+        
         public static Vec3 operator *(MyQuaternion rotation, Vec3 point)
         {
             MyQuaternion pureVectorQuaternion = new MyQuaternion(point.x, point.y, point.z, 0);
-            MyQuaternion appliedPureQuaternion = MyQuaternion.Conjugated(rotation) * pureVectorQuaternion * rotation;
+            MyQuaternion appliedPureQuaternion = rotation * pureVectorQuaternion * MyQuaternion.Conjugated(rotation);
 
             return new Vec3(appliedPureQuaternion.x, appliedPureQuaternion.y, appliedPureQuaternion.z);
         }
@@ -275,7 +274,7 @@ namespace CustomMath
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            throw new NotImplementedException();
+            return $"( X = ${this.x}, Y = ${this.y}, Z = ${this.z}, W = ${this.w})";
         }
         
         #endregion
