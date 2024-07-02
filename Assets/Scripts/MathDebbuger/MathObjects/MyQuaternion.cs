@@ -192,13 +192,38 @@ namespace CustomMath
         // returns A quaternion spherically interpolated between quaternions a and b.
         public static MyQuaternion Slerp(MyQuaternion a, MyQuaternion b, float t)
         {
-            throw new NotImplementedException();
+            return SlerpUnclamped(a, b, t < 0 ? 0 : (t > 1 ? 1 : t));
         }
-        
+
         // Spherically interpolates between a and b by t. The parameter t is not clamped.
         public static MyQuaternion SlerpUnclamped(MyQuaternion a, MyQuaternion b, float t)
         {
-            throw new NotImplementedException();
+            // https://en.wikipedia.org/wiki/Slerp#:~:text=0%20and%C2%A01.-,Geometric%20slerp,-%5Bedit%5D
+
+            MyQuaternion normA = a.normalized;
+            MyQuaternion normB = b.normalized;
+
+            float cosOmega = Dot(normA, normB);
+
+            if (cosOmega < 0.0f)
+            {
+                // Flip the interpolation
+                cosOmega = -cosOmega;
+            }
+
+            float coeff1, coeff2;
+
+            float omega = Mathf.Acos(cosOmega);
+
+            coeff1 = Mathf.Sin((1 - t) * omega) / Mathf.Sin(omega);
+            coeff2 = (cosOmega < 0.0f ? -1 : 1) * (Mathf.Sin(t * omega) / Mathf.Sin(omega));
+
+            return new MyQuaternion(
+                    coeff1 * normA.x + coeff2 * normB.x,
+                    coeff1 * normA.y + coeff2 * normB.y,
+                    coeff1 * normA.z + coeff2 * normB.z,
+                    coeff1 * normA.w + coeff2 * normB.w
+                );
         }
         
         // Interpolates between a and b by t and normalizes the result afterwards. The parameter t is clamped to the range [0, 1]
