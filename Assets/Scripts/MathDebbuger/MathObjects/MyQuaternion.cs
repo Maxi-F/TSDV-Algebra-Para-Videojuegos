@@ -244,7 +244,18 @@ namespace CustomMath
         // Returns the angle in degrees between two rotations a and b.
         public static float Angle(MyQuaternion a, MyQuaternion b)
         {
-            throw new NotImplementedException();
+            // It is an analogue implementation to vec 3 angle.
+
+            float dotValue = Dot(a.normalized, b.normalized);
+            float dotAbsValue = Mathf.Abs(dotValue);
+
+            // It's multiplied by 2 to re-obtain the incidence we divided in the quaternion formula.
+            return IsEqualUsingDot(dotValue) ? 0.0f : Mathf.Acos(dotAbsValue) * 2.0f * Mathf.Rad2Deg; 
+        }
+
+        public static bool IsEqualUsingDot(float dotValue)
+        {
+            return dotValue > 1 - float.Epsilon && dotValue < 1 + float.Epsilon;
         }
 
         // returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
