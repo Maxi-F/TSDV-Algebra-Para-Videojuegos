@@ -282,9 +282,30 @@ namespace CustomMath
             return quaternion;
         }
 
-        public void ToAngleAxis(out float angle, out Vector3 axis)
+        public void ToAngleAxis(out float angle, out Vec3 axis)
         {
-            throw new NotImplementedException();
+            MyQuaternion thisNormalized = this.normalized;
+
+            // To obtain the angle we take it from the real part of the quaternion
+            angle = 2.0f * Mathf.Acos(thisNormalized.w);
+
+            // To obtain the axis values, first we check if we are almost an idenity quaternion
+            float magnitude = Mathf.Sqrt(1f - thisNormalized.w * thisNormalized.w);
+
+            // if magnitude is almost zero, we return any axis, as there is no rotation
+            if(magnitude < 0.0001f)
+            {
+                axis = new Vec3(1, 0, 0);
+            } else
+            {
+                // If we have a rotation, then we divide the imaginary values by the sin of the angle
+                // Note: This does not perform well as we are diving by floats, but for understanding ill leave it like so
+                axis = new Vec3(
+                    thisNormalized.x / Mathf.Sin(angle / 2f),
+                    thisNormalized.y / Mathf.Sin(angle / 2f),
+                    thisNormalized.z / Mathf.Sin(angle / 2f)
+                    );
+            }
         }
 
         // Creates a rotation which rotates from fromDirection to toDirection.
