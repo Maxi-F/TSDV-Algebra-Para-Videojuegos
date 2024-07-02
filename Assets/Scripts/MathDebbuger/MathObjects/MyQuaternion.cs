@@ -371,7 +371,12 @@ namespace CustomMath
         // Rotates a rotation from towards to.
         public static MyQuaternion RotateTowards(MyQuaternion from, MyQuaternion to, float maxDegreesDelta)
         {
-            throw new NotImplementedException();
+            float angle = MyQuaternion.Angle(from, to);
+
+            if (angle == 0.0f) return to; // If no angle is specified, return one of the quaternions as both are the same.
+
+            // Makes a SLERP taking into account the t as the max degrees to rotate over the angle between quaternions
+            return MyQuaternion.SlerpUnclamped(from, to, maxDegreesDelta / angle);
         }
 
         public float SquaredMagnitude()
