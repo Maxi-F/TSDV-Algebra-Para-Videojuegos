@@ -358,9 +358,14 @@ namespace CustomMath
         }
 
         // Creates a rotation which rotates from fromDirection to toDirection.
-        public void SetFromToRotation(Vector3 fromDirection, Vector3 toDirection)
+        public void SetFromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
-            throw new NotImplementedException();
+            MyQuaternion newQuaternion = FromToRotation(fromDirection, toDirection).normalized;
+
+            this.x = newQuaternion.x;
+            this.y = newQuaternion.y;
+            this.z = newQuaternion.z;
+            this.w = newQuaternion.w;
         }
 
         // Rotates a rotation from towards to.
