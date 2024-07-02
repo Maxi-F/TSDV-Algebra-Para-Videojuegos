@@ -87,6 +87,8 @@ namespace CustomMath
 
         // Returns or sets the euler angle representation of the rotation.
         // These can be obtained from the rotation matrices and application Z, Y, and X in that order. 
+        
+        // TODO HACERLO SACANDO EL ANGULO DE INCIDENCIA Y MUTLIPLICANDO POR LOS VALORES DEL CUATERNION
         public Vec3 eulerAngles
         {
             get => new Vec3(
@@ -270,6 +272,7 @@ namespace CustomMath
             );
         }
         
+        // https://eater.net/quaternions/video/rotation
         public static Vec3 operator *(MyQuaternion rotation, Vec3 point)
         {
             MyQuaternion pureVectorQuaternion = new MyQuaternion(point.x, point.y, point.z, 0);
