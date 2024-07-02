@@ -205,13 +205,29 @@ namespace CustomMath
         // returns A quaternion interpolated between quaternions a and b.
         public static MyQuaternion Lerp(MyQuaternion a, MyQuaternion b, float t)
         {
-            throw new NotImplementedException();
+            return LerpUnclamped(a, b, t < 0 ? 0 : (t > 1 ? 1 : t));
         }
 
         // Interpolates between a and b by t and normalizes the result afterwards. The parameter t is not clamped
         public static MyQuaternion LerpUnclamped(MyQuaternion a, MyQuaternion b, float t)
         {
-            throw new NotImplementedException();
+            MyQuaternion result = Identity;
+
+            if(Dot(a, b) >= float.Epsilon) // Checks which is the shortest path to rotate thowards that path.
+            {
+                result.x = a.x + (b.x - a.x) * t;
+                result.y = a.y + (b.y - a.y) * t;
+                result.z = a.z + (b.z - a.z) * t;
+                result.w = a.w + (b.w - a.w) * t;
+            } else // Go in other direction
+            {
+                result.x = a.x - (b.x - a.x) * t;
+                result.y = a.y - (b.y - a.y) * t;
+                result.z = a.z - (b.z - a.z) * t;
+                result.w = a.w - (b.w - a.w) * t;
+            }
+
+            return result;
         }
 
         // Creates a rotation which rotates angle degrees around axis.
