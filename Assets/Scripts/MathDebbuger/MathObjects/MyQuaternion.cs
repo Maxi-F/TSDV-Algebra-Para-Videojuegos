@@ -215,9 +215,14 @@ namespace CustomMath
         }
 
         // Creates a rotation which rotates angle degrees around axis.
-        public static MyQuaternion AngleAxis(float angle, Vector3 axis)
+        public static MyQuaternion AngleAxis(float angle, Vec3 axis)
         {
-            throw new NotImplementedException();
+            Vec3 normalizedAxis = axis.normalized;
+
+            // Multiplies by the angle of incidence of the imaginary part of the quaternion
+            normalizedAxis *= Mathf.Sin(angle * Mathf.Deg2Rad * 0.5f);
+
+            return new MyQuaternion(normalizedAxis.x, normalizedAxis.y, normalizedAxis.z, Mathf.Cos(angle * Mathf.Deg2Rad * 0.5f));
         }
 
         // Creates a rotation with the specified forward and upwards directions
