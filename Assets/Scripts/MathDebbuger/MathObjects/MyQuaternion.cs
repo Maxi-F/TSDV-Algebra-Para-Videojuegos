@@ -275,24 +275,105 @@ namespace CustomMath
         }
 
         // Creates a rotation with the specified forward and upwards directions
-        public static MyQuaternion LookRotation(Vector3 forward, Vector3 upwards)
+        public static MyQuaternion LookRotation(Vec3 forward, Vec3 upwards)
         {
-            throw new NotImplementedException();
+            // If forward is almost zero return identity
+            if (forward.magnitude <= KEpsilon) return MyQuaternion.Identity;
+
+            // First, set the axis to use for the rotation
+            Vec3 forwardToUse = forward.normalized;
+            Vec3 rightToUse = Vec3.Cross(upwards, forward).normalized;
+            Vec3 upToUse = upwards.normalized;
+            
+            // Now we have to make the rotation matrix, using the created axis values.
+            // every row of the matrix is one axis in the order of X Y Z 
+            
+            float m00 = rightToUse.x;
+            float m01 = rightToUse.y;
+            float m02 = rightToUse.z;
+
+            float m10 = upToUse.x;
+            float m11 = upToUse.y;
+            float m12 = upToUse.z;
+
+            float m20 = forwardToUse.x;
+            float m21 = forwardToUse.y;
+            float m22 = forwardToUse.z;
+            
+            // Lastly, we have to do a conversion from the Rotation Matrix to a Quaternion.
+            // The base of the code is this paper https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf (Thanks Michael Day!)
+            
+            // First we have to know which equations we should use, depending on which quaternion value we are
+            // Certain it will not be zero. Then, we apply the correct matrix equations from the sums and substractions
+            // created equations.
+
+            MyQuaternion result;
+            float factor;
+            
+            if (m22 < 0) // sqr(X) + sqr(Y) > 1/2, which is the same to say that |(X, Y)| > |(Z, W)| if normalized
+            {
+                // We know for certain sqr(X) + sqr(Y) > 1/2, so we have to check which one is bigger to be certain its not zero
+                if (m00 > m11) // is X bigger than Y ?
+                {
+                    // We know for certain X is not zero, so we take the x value from the trace.
+                    factor = 1 + m00 - m11 - m22; // sqr(X)
+                    
+                    // And the result is the equations that have multiplied by 4X.
+                    result = new MyQuaternion(factor, m10 + m01, m20 + m02, m12 - m21);
+                }
+                else
+                {
+                    // We know for certain Y is not zero
+                    factor = 1 - m00 + m11 - m22; // sqr(Y)
+
+                    // And the result is the equations that have multiplied by 4Y.
+                    result = new MyQuaternion(m01 + m10, factor, m12 + m21, m20 - m02);
+                }
+            }
+            else
+            {
+                // We know for certain sqr(Z) + sqr(W) > 1/2, so we have to check which one is bigger to be certain its not zero
+                if (m00 < -m11) // Is Z bigger than W ?
+                {
+                    // We know for certain Z is not zero
+                    factor = 1 - m00 - m11 + m22; // sqr(Z)
+
+                    // And the result is the equations that are multiplied by 4Z.
+                    result = new MyQuaternion(m20 + m02, m12 + m21, factor, m01 - m10);
+                }
+                else
+                {
+                    // We know for certain W is not zero
+                    factor = 1 + m00 + m11 + m22; // sqr(W)
+                    
+                    // And the result is the equations that are multiplied by 4W.
+                    result = new MyQuaternion(m12 - m21, m20 - m02, m01 - m10, factor);
+                }
+            }
+            // Finally, we have to take out the factor that is in the quaternion.
+
+            result *= 0.5f / Mathf.Sqrt(factor);
+
+            return result;
         }
-        public static MyQuaternion LookRotation(Vector3 forward)
+        public static MyQuaternion LookRotation(Vec3 forward)
         {
-            return MyQuaternion.LookRotation(forward, Vector3.up);
+            return MyQuaternion.LookRotation(forward, Vec3.Up);
         }
 
         // Creates a rotation with the specified forward and upwards directions.
-        public void SetLookRotation(Vector3 view, Vector3 up)
+        public void SetLookRotation(Vec3 view, Vec3 up)
         {
-            throw new NotImplementedException();
+            MyQuaternion lookRotationQuaternion = LookRotation(view, up);
+
+            this.x = lookRotationQuaternion.x;
+            this.y = lookRotationQuaternion.y;
+            this.z = lookRotationQuaternion.z;
         }
 
-        public void SetLookRotation(Vector3 view)
+        public void SetLookRotation(Vec3 view)
         {
-            throw new NotImplementedException();
+            SetLookRotation(view, Vec3.Up);
         }
         
         // Returns the angle in degrees between two rotations a and b.
@@ -419,6 +500,16 @@ namespace CustomMath
                 lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x,
                 lhs.w * rhs.z	+ lhs.x * rhs.y	- lhs.y * rhs.x	+ lhs.z * rhs.w,
                 lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
+            );
+        }
+
+        public static MyQuaternion operator *(MyQuaternion q, float value)
+        {
+            return new MyQuaternion(
+                q.x * value,
+                q.y * value,
+                q.z * value,
+                q.w * value
             );
         }
         
