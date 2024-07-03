@@ -45,138 +45,71 @@ public class MyMatrix4x4 : MonoBehaviour
         m33 = column3[3];
     }
 
-    public float this[int row, int column] { get
+    public float this[int index]
+    {
+        get
         {
-            switch(row)
+            switch (index)
             {
-                case 0:
-                    switch(column) {
-                        case 0:
-                            return m00;
-                        case 1:
-                            return m01;
-                        case 2:
-                            return m02;
-                        case 3:
-                            return m03;
-                    }
-                    break;
-                case 1:
-                    switch (column)
-                    {
-                        case 0:
-                            return m10;
-                        case 1:
-                            return m11;
-                        case 2:
-                            return m12;
-                        case 3:
-                            return m13;
-                    }
-                    break;
-                case 2:
-                    switch (column)
-                    {
-                        case 0:
-                            return m20;
-                        case 1:
-                            return m21;
-                        case 2:
-                            return m22;
-                        case 3:
-                            return m23;
-                    }
-                    break;
-                case 3:
-                    switch (column)
-                    {
-                        case 0:
-                            return m30;
-                        case 1:
-                            return m31;
-                        case 2:
-                            return m32;
-                        case 3:
-                            return m33;
-                    }
-                    break;
+                case 0: return m00;
+                case 1: return m10;
+                case 2: return m20;
+                case 3: return m30;
+                case 4: return m01;
+                case 5: return m11;
+                case 6: return m21;
+                case 7: return m31;
+                case 8: return m02;
+                case 9: return m12;
+                case 10: return m22;
+                case 11: return m32;
+                case 12: return m03;
+                case 13: return m13;
+                case 14: return m23;
+                case 15: return m33;
+                default:
+                    throw new IndexOutOfRangeException("Invalid matrix index!");
             }
-
-            throw new Exception("Index not obtainable");
         }
+
         set
         {
-            switch (row)
+            switch (index)
             {
-                case 0:
-                    switch (column)
-                    {
-                        case 0:
-                            m00 = value;
-                            break;
-                        case 1:
-                            m01 = value;
-                            break;
-                        case 2:
-                            m02 = value;
-                            break;
-                        case 3:
-                            m03 = value;
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (column)
-                    {
-                        case 0:
-                            m10 = value;
-                            break;
-                        case 1:
-                            m11 = value;
-                            break;
-                        case 2:
-                            m12 = value;
-                            break;
-                        case 3:
-                            m13 = value;
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch (column)
-                    {
-                        case 0:
-                            m20 = value;
-                            break;
-                        case 1:
-                            m21 = value;
-                            break;
-                        case 2:
-                            m22 = value;
-                            break;
-                        case 3:
-                            m23 = value;
-                            break;
-                    }
-                    break;
-                case 3:
-                    switch (column)
-                    {
-                        case 0:
-                            m30 = value;
-                            break;
-                        case 1:
-                            m31 = value;
-                            break;
-                        case 2:
-                            m32 = value;
-                            break;
-                        case 3:
-                            m33 = value;
-                            break;
-                    }
-                    break;
+                case 0: m00 = value; break;
+                case 1: m10 = value; break;
+                case 2: m20 = value; break;
+                case 3: m30 = value; break;
+                case 4: m01 = value; break;
+                case 5: m11 = value; break;
+                case 6: m21 = value; break;
+                case 7: m31 = value; break;
+                case 8: m02 = value; break;
+                case 9: m12 = value; break;
+                case 10: m22 = value; break;
+                case 11: m32 = value; break;
+                case 12: m03 = value; break;
+                case 13: m13 = value; break;
+                case 14: m23 = value; break;
+                case 15: m33 = value; break;
+
+                default:
+                    throw new IndexOutOfRangeException("Invalid matrix index!");
             }
+        }
+    }
+
+    public float this[int row, int column]
+    {
+        
+        get
+        {
+            return this[row + column * 4];
+        }
+
+        set
+        {
+            this[row + column * 4] = value;
         }
     }
 
@@ -223,7 +156,21 @@ public class MyMatrix4x4 : MonoBehaviour
     // Resumen:
     //     Checks whether this is an identity matrix. (Read Only)
     public bool isIdentity { get {
-            throw new NotImplementedException();
+            for(int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if(i == j && this[i, j] != 1)
+                    {
+                        return false;
+                    } else if(this[i, j] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
     //
