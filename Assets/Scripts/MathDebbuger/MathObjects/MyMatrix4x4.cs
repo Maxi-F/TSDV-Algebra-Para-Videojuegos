@@ -45,21 +45,138 @@ public class MyMatrix4x4 : MonoBehaviour
         m33 = column3[3];
     }
 
-    public float this[int index] { get
-        {
-            throw new NotImplementedException();
-        } set
-        {
-            throw new NotImplementedException();
-        }
-    }
     public float this[int row, int column] { get
         {
-            throw new NotImplementedException();
+            switch(row)
+            {
+                case 0:
+                    switch(column) {
+                        case 0:
+                            return m00;
+                        case 1:
+                            return m01;
+                        case 2:
+                            return m02;
+                        case 3:
+                            return m03;
+                    }
+                    break;
+                case 1:
+                    switch (column)
+                    {
+                        case 0:
+                            return m10;
+                        case 1:
+                            return m11;
+                        case 2:
+                            return m12;
+                        case 3:
+                            return m13;
+                    }
+                    break;
+                case 2:
+                    switch (column)
+                    {
+                        case 0:
+                            return m20;
+                        case 1:
+                            return m21;
+                        case 2:
+                            return m22;
+                        case 3:
+                            return m23;
+                    }
+                    break;
+                case 3:
+                    switch (column)
+                    {
+                        case 0:
+                            return m30;
+                        case 1:
+                            return m31;
+                        case 2:
+                            return m32;
+                        case 3:
+                            return m33;
+                    }
+                    break;
+            }
+
+            throw new Exception("Index not obtainable");
         }
         set
         {
-            throw new NotImplementedException();
+            switch (row)
+            {
+                case 0:
+                    switch (column)
+                    {
+                        case 0:
+                            m00 = value;
+                            break;
+                        case 1:
+                            m01 = value;
+                            break;
+                        case 2:
+                            m02 = value;
+                            break;
+                        case 3:
+                            m03 = value;
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (column)
+                    {
+                        case 0:
+                            m10 = value;
+                            break;
+                        case 1:
+                            m11 = value;
+                            break;
+                        case 2:
+                            m12 = value;
+                            break;
+                        case 3:
+                            m13 = value;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (column)
+                    {
+                        case 0:
+                            m20 = value;
+                            break;
+                        case 1:
+                            m21 = value;
+                            break;
+                        case 2:
+                            m22 = value;
+                            break;
+                        case 3:
+                            m23 = value;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (column)
+                    {
+                        case 0:
+                            m30 = value;
+                            break;
+                        case 1:
+                            m31 = value;
+                            break;
+                        case 2:
+                            m32 = value;
+                            break;
+                        case 3:
+                            m33 = value;
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
