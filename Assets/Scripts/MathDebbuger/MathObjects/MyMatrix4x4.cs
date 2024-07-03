@@ -24,7 +24,25 @@ public class MyMatrix4x4 : MonoBehaviour
     public float m31;
 
     public MyMatrix4x4(Vector4 column0, Vector4 column1, Vector4 column2, Vector4 column3) {
-        throw new NotImplementedException();
+        m00 = column0[0];
+        m10 = column0[1];
+        m20 = column0[2];
+        m30 = column0[3];
+
+        m01 = column1[0];
+        m11 = column1[1];
+        m21 = column1[2];
+        m31 = column1[3];
+        
+        m02 = column2[0];
+        m12 = column2[1];
+        m22 = column2[2];
+        m32 = column2[3];
+        
+        m03 = column3[0];
+        m13 = column3[1];
+        m23 = column3[2];
+        m33 = column3[3];
     }
 
     public float this[int index] { get
@@ -50,14 +68,24 @@ public class MyMatrix4x4 : MonoBehaviour
     //     Returns a matrix with all elements set to zero (Read Only).
     public static MyMatrix4x4 zero { get
         {
-            throw new NotImplementedException();
+            return new MyMatrix4x4(
+                new Vector4(0, 0, 0, 0),
+                new Vector4(0, 0, 0, 0),
+                new Vector4(0, 0, 0, 0),
+                new Vector4(0, 0, 0, 0)
+            );
         }
     }
     //
     // Resumen:
     //     Returns the identity matrix (Read Only).
     public static MyMatrix4x4 identity { get {
-            throw new NotImplementedException();
+            return new MyMatrix4x4(
+                new Vector4(1, 0, 0, 0),
+                new Vector4(0, 1, 0, 0),
+                new Vector4(0, 0, 1, 0),
+                new Vector4(0, 0, 0, 1)
+            );
         }
     }
     //
