@@ -203,17 +203,50 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //
     // Resumen:
     //     The inverse of this matrix. (Read Only)
-    public Matrix4x4 inverse { get; }
+    public MyMatrix4x4 inverse
+    {
+        get
+        {
+            // The inverse of a matrix is such that if multiplied by the original it would result in the identity matrix.   
+            // obtained using https://euclideanspace.com/maths/algebra/matrix/functions/inverse/index.htm
+            
+            float newM00 = m12*m23*m31 - m13*m22*m31 + m13*m21*m32 - m11*m23*m32 - m12*m21*m33 + m11*m22*m33;
+            float newM01 = m03*m22*m31 - m02*m23*m31 - m03*m21*m32 + m01*m23*m32 + m02*m21*m33 - m01*m22*m33;
+            float newM02 = m02*m13*m31 - m03*m12*m31 + m03*m11*m32 - m01*m13*m32 - m02*m11*m33 + m01*m12*m33;
+            float newM03 = m03*m12*m21 - m02*m13*m21 - m03*m11*m22 + m01*m13*m22 + m02*m11*m23 - m01*m12*m23;
+            float newM10 = m13*m22*m30 - m12*m23*m30 - m13*m20*m32 + m10*m23*m32 + m12*m20*m33 - m10*m22*m33;
+            float newM11 = m02*m23*m30 - m03*m22*m30 + m03*m20*m32 - m00*m23*m32 - m02*m20*m33 + m00*m22*m33;
+            float newM12 = m03*m12*m30 - m02*m13*m30 - m03*m10*m32 + m00*m13*m32 + m02*m10*m33 - m00*m12*m33;
+            float newM13 = m02*m13*m20 - m03*m12*m20 + m03*m10*m22 - m00*m13*m22 - m02*m10*m23 + m00*m12*m23;
+            float newM20 = m11*m23*m30 - m13*m21*m30 + m13*m20*m31 - m10*m23*m31 - m11*m20*m33 + m10*m21*m33;
+            float newM21 = m03*m21*m30 - m01*m23*m30 - m03*m20*m31 + m00*m23*m31 + m01*m20*m33 - m00*m21*m33;
+            float newM22 = m01*m13*m30 - m03*m11*m30 + m03*m10*m31 - m00*m13*m31 - m01*m10*m33 + m00*m11*m33;
+            float newM23 = m03*m11*m20 - m01*m13*m20 - m03*m10*m21 + m00*m13*m21 + m01*m10*m23 - m00*m11*m23;
+            float newM30 = m12*m21*m30 - m11*m22*m30 - m12*m20*m31 + m10*m22*m31 + m11*m20*m32 - m10*m21*m32;
+            float newM31 = m01*m22*m30 - m02*m21*m30 + m02*m20*m31 - m00*m22*m31 - m01*m20*m32 + m00*m21*m32;
+            float newM32 = m02*m11*m30 - m01*m12*m30 - m02*m10*m31 + m00*m12*m31 + m01*m10*m32 - m00*m11*m32;
+            float newM33 = m01*m12*m20 - m02*m11*m20 + m02*m10*m21 - m00*m12*m21 - m01*m10*m22 + m00*m11*m22;
+
+            return new MyMatrix4x4(
+                new Vector4(newM00, newM01, newM02, newM03),
+                new Vector4(newM10, newM11, newM12, newM13),
+                new Vector4(newM20, newM21, newM22, newM23),
+                new Vector4(newM30, newM31, newM32, newM33)
+            );
+        }
+    }
 
     public static float Determinant(MyMatrix4x4 m) {
         return m.determinant;
     }
 
-    public static MyMatrix4x4 Inverse(MyMatrix4x4 m) {
-        throw new NotImplementedException();
+    public static MyMatrix4x4 Inverse(MyMatrix4x4 m)
+    {
+        return m.inverse;
     }
 
-    public static bool Inverse3DAffine(MyMatrix4x4 input, ref MyMatrix4x4 result) {
+    public static bool Inverse3DAffine(MyMatrix4x4 input, ref MyMatrix4x4 result)
+    {
         throw new NotImplementedException();
     }
 
@@ -242,8 +275,32 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //
     // Parámetros:
     //   q:
-    public static MyMatrix4x4 Rotate(MyQuaternion q) {
-        throw new NotImplementedException();
+    public static MyMatrix4x4 Rotate(MyQuaternion q)
+    {
+        // https://euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+        // To get the rotation from the quaternion you use the equation q*p*conj(q) = Mp, where M is the matrix we want.
+
+        return new MyMatrix4x4(
+            new Vector4(
+                1f - 2f * (q.y * q.y + q.z * q.z), 
+                2f * q.x * q.y - 2f * q.z * q.w,
+                2f * q.x * q.z + 2f * q.y * q.w, 
+                0f
+                ),
+            new Vector4(
+                2f * q.x * q.y + 2f * q.z * q.w, 
+                1f - 2f * q.x * q.x - 2f * q.z * q.z, 
+                2f * q.y * q.z - 2f * q.x * q.w, 
+                0f
+                ),
+            new Vector4(
+                2f * q.x * q.z - 2f * q.y * q.w, 
+                2 * q.y * q.z + 2 * q.x * q.w, 
+                1 - 2 * q.x * q.x - 2 * q.y * q.y, 
+                0
+                ),
+            new Vector4(0, 0, 0, 1)
+        );
     }
     //
     // Resumen:
