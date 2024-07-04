@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyMatrix4x4 : MonoBehaviour
+public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
 {
     public float m00;
     public float m33;
@@ -155,7 +155,7 @@ public class MyMatrix4x4 : MonoBehaviour
     //
     // Resumen:
     //     Checks whether this is an identity matrix. (Read Only)
-    public bool isIdentity { get {
+    public bool IsIdentity { get {
             for(int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -176,8 +176,20 @@ public class MyMatrix4x4 : MonoBehaviour
     //
     // Resumen:
     //     The determinant of the matrix. (Read Only)
-    public float determinant { get {
-            throw new NotImplementedException();
+    public float determinant { get
+        {
+            return m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30 -
+                m03 * m11 * m22 * m30 + m01 * m13 * m22 * m30 +
+                m02 * m11 * m23 * m30 - m01 * m12 * m23 * m30 -
+                m03 * m12 * m20 * m31 + m02 * m13 * m20 * m31 +
+                m03 * m10 * m22 * m31 - m00 * m13 * m22 * m31 -
+                m02 * m10 * m23 * m31 + m00 * m12 * m23 * m31 +
+                m03 * m11 * m20 * m32 - m01 * m13 * m20 * m32 -
+                m03 * m10 * m21 * m32 + m00 * m13 * m21 * m32 +
+                m01 * m10 * m23 * m32 - m00 * m11 * m23 * m32 -
+                m02 * m11 * m20 * m33 + m01 * m12 * m20 * m33 +
+                m02 * m10 * m21 * m33 - m00 * m12 * m21 * m33 -
+                m01 * m10 * m22 * m33 + m00 * m11 * m22 * m33;
         }
     }
     //
@@ -194,7 +206,7 @@ public class MyMatrix4x4 : MonoBehaviour
     public Matrix4x4 inverse { get; }
 
     public static float Determinant(MyMatrix4x4 m) {
-        throw new NotImplementedException();
+        return m.determinant;
     }
 
     public static MyMatrix4x4 Inverse(MyMatrix4x4 m) {
