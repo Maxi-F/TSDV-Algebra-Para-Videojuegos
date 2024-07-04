@@ -399,10 +399,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
                 throw new IndexOutOfRangeException("Not in range!");
         }
     }
-
-    public override int GetHashCode() {
-        throw new NotImplementedException();
-    }
+    
     //
     // Resumen:
     //     Get position vector from the matrix.
@@ -472,7 +469,35 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   column:
     public void SetColumn(int index, Vector4 column)
     {
-        throw new NotImplementedException();
+        switch (index)
+        {
+            case 0:
+                m00 = column.x;
+                m10 = column.y;
+                m20 = column.z;
+                m30 = column.w;
+                break;
+            case 1:
+                m01 = column.x;
+                m11 = column.y;
+                m21 = column.z;
+                m31 = column.w;
+                break;
+            case 2:
+                m02 = column.x;
+                m12 = column.y;
+                m22 = column.z;
+                m32 = column.w;
+                break;
+            case 3:
+                m03 = column.x;
+                m13 = column.y;
+                m23 = column.z;
+                m33 = column.w;
+                break;
+            default:
+                throw new IndexOutOfRangeException("Not in range!");
+        }
     }
     //
     // Resumen:
@@ -484,7 +509,35 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   row:
     public void SetRow(int index, Vector4 row)
     {
-        throw new NotImplementedException();
+        switch (index)
+        {
+            case 0:
+                m00 = row.x;
+                m01 = row.y;
+                m02 = row.z;
+                m03 = row.w;
+                break;
+            case 1:
+                m10 = row.x;
+                m11 = row.y;
+                m12 = row.z;
+                m13 = row.w;
+                break;
+            case 2:
+                m20 = row.x;
+                m21 = row.y;
+                m22 = row.z;
+                m23 = row.w;
+                break;
+            case 3:
+                m30 = row.x;
+                m31 = row.y;
+                m32 = row.z;
+                m33 = row.w;
+                break;
+            default:
+                throw new IndexOutOfRangeException("Not in range!");
+        }
     }
     //
     // Resumen:
