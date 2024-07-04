@@ -260,7 +260,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Create a "look at" matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   from:
     //     The source point.
     //
@@ -279,7 +279,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Creates a rotation matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   q:
     public static MyMatrix4x4 Rotate(MyQuaternion q)
     {
@@ -312,7 +312,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Creates a scaling matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   vector:
     public static MyMatrix4x4 Scale(Vec3 vector) {
         // https://learnopengl.com/Getting-started/Transformations#:~:text=solving%20linear%20equations.-,Scaling,-When%20we%27re%20scaling
@@ -328,7 +328,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Creates a translation matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   vector:
     public static MyMatrix4x4 Translate(Vec3 vector)
     {
@@ -348,7 +348,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Creates a translation, rotation and scaling matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   pos:
     //
     //   q:
@@ -359,18 +359,30 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
         return Translate(pos) * Rotate(q) * Scale(s);
     }
 
-    public override bool Equals(object other) {
-        throw new NotImplementedException();
-    }
-
-    public bool Equals(MyMatrix4x4 other) {
-        throw new NotImplementedException();
+    public bool Equals(MyMatrix4x4 other)
+    {
+        return other != null && Mathf.Approximately(m00, other.m00) &&
+               Mathf.Approximately(m01, other.m01) &&
+               Mathf.Approximately(m02, other.m02) &&
+               Mathf.Approximately(m03, other.m03) &&
+               Mathf.Approximately(m10, other.m10) &&
+               Mathf.Approximately(m11, other.m11) &&
+               Mathf.Approximately(m12, other.m12) &&
+               Mathf.Approximately(m13, other.m13) &&
+               Mathf.Approximately(m20, other.m20) &&
+               Mathf.Approximately(m21, other.m21) &&
+               Mathf.Approximately(m22, other.m22) &&
+               Mathf.Approximately(m23, other.m23) &&
+               Mathf.Approximately(m30, other.m30) &&
+               Mathf.Approximately(m31, other.m31) &&
+               Mathf.Approximately(m32, other.m32) &&
+               Mathf.Approximately(m33, other.m33);
     }
     //
     // Resumen:
     //     Get a column of the matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   index:
     public Vector4 GetColumn(int index) {
         throw new NotImplementedException();
@@ -390,7 +402,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Returns a row of the matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   index:
     public Vector4 GetRow(int index)
     {
@@ -400,7 +412,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Transforms a position by this matrix (generic).
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   point:
     public Vec3 MultiplyPoint(Vec3 point)
     {
@@ -410,7 +422,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Transforms a position by this matrix (fast).
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   point:
     public Vec3 MultiplyPoint3x4(Vec3 point)
     {
@@ -420,7 +432,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Transforms a direction by this matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   vector:
     public Vec3 MultiplyVector(Vec3 vector)
     {
@@ -430,7 +442,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Sets a column of the matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   index:
     //
     //   column:
@@ -442,7 +454,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Sets a row of the matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   index:
     //
     //   row:
@@ -454,7 +466,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Sets this matrix to a translation, rotation and scaling matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   pos:
     //
     //   q:
@@ -468,7 +480,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Returns a formatted string for this matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   format:
     //     A numeric format string.
     //
@@ -482,7 +494,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Returns a formatted string for this matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   format:
     //     A numeric format string.
     //
@@ -496,7 +508,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Returns a formatted string for this matrix.
     //
-    // Parámetros:
+    // Parï¿½metros:
     //   format:
     //     A numeric format string.
     //
