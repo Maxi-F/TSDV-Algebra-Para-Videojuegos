@@ -134,8 +134,8 @@ namespace CustomMath
                 float zInRad = Mathf.Deg2Rad * value.z * 0.5f;
                 
                 MyQuaternion qx = new MyQuaternion(Mathf.Sin(xInRad), 0, 0, Mathf.Cos(xInRad));
-                MyQuaternion qy = new MyQuaternion(0, yInRad, 0, Mathf.Cos(yInRad));
-                MyQuaternion qz = new MyQuaternion(0, 0, zInRad, Mathf.Cos(zInRad));
+                MyQuaternion qy = new MyQuaternion(0, Mathf.Sin(yInRad), 0, Mathf.Cos(yInRad));
+                MyQuaternion qz = new MyQuaternion(0, 0, Mathf.Sin(zInRad), Mathf.Cos(zInRad));
 
                 MyQuaternion result = qy * qx * qz;
 
