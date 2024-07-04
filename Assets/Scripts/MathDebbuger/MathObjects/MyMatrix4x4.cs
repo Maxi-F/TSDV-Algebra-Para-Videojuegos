@@ -551,36 +551,17 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   s:
     public void SetTRS(Vec3 pos, MyQuaternion q, Vec3 s)
     {
-        throw new NotImplementedException();
+        MyMatrix4x4 trsMatrix = TRS(pos, q, s);
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                this[i, j] = trsMatrix[i, j];
+            }
+        }
     }
-    //
-    // Resumen:
-    //     Returns a formatted string for this matrix.
-    //
-    // Par�metros:
-    //   format:
-    //     A numeric format string.
-    //
-    //   formatProvider:
-    //     An object that specifies culture-specific formatting.
-    public override string ToString()
-    {
-        throw new NotImplementedException();
-    }
-    //
-    // Resumen:
-    //     Returns a formatted string for this matrix.
-    //
-    // Par�metros:
-    //   format:
-    //     A numeric format string.
-    //
-    //   formatProvider:
-    //     An object that specifies culture-specific formatting.
-    public string ToString(string format)
-    {
-        throw new NotImplementedException();
-    }
+    
     //
     // Resumen:
     //     Returns a formatted string for this matrix.
@@ -593,7 +574,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //     An object that specifies culture-specific formatting.
     public string ToString(string format, IFormatProvider formatProvider)
     {
-        throw new NotImplementedException();
+        return $"{m00} {m01} {m02} {m03}\n {m10} {m11} {m12} {m13}\n {m20} {m21} {m22} {m23}\n {m30} {m31} {m32} {m33}";
     }
 
     public bool ValidTRS() {
@@ -630,17 +611,17 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
         );
     }
     
+    public static bool operator ==(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
+    {
+        return lhs != null && lhs.Equals(rhs);
+    }
+    public static bool operator !=(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
+    {
+        return !(lhs == rhs);
+    }
+    
     /*
     public static Vector4 operator *(Matrix4x4 lhs, Vector4 vector) {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator ==(Matrix4x4 lhs, Matrix4x4 rhs)
-    {
-        throw new NotImplementedException();
-    }
-    public static bool operator !=(Matrix4x4 lhs, Matrix4x4 rhs)
-    {
         throw new NotImplementedException();
     }
     */
