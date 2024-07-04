@@ -195,8 +195,14 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //
     // Resumen:
     //     Returns the transpose of this matrix (Read Only).
-    public MyMatrix4x4 transpose { get {
-            throw new NotImplementedException();
+    public MyMatrix4x4 transpose { get
+        {
+            return new MyMatrix4x4(
+                new Vector4(m00, m10, m20, m30),
+                new Vector4(m01, m11, m21, m31),
+                new Vector4(m02, m12, m22, m32),
+                new Vector4(m03, m13, m23, m33)
+            );
         }
     }
 
@@ -309,7 +315,14 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Parámetros:
     //   vector:
     public static MyMatrix4x4 Scale(Vec3 vector) {
-        throw new NotImplementedException();
+        // https://learnopengl.com/Getting-started/Transformations#:~:text=solving%20linear%20equations.-,Scaling,-When%20we%27re%20scaling
+
+        return new MyMatrix4x4(
+            new Vector4(vector.x, 0, 0, 0),
+            new Vector4(0, vector.y, 0, 0),
+            new Vector4(0, 0, vector.z, 0),
+            new Vector4(0, 0, 0, 1)
+        );
     }
     //
     // Resumen:
@@ -317,13 +330,19 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //
     // Parámetros:
     //   vector:
-    public static MyMatrix4x4 Translate(Vec3 vector) {
-        throw new NotImplementedException();
+    public static MyMatrix4x4 Translate(Vec3 vector)
+    {
+        return new MyMatrix4x4(
+            new Vector4(1, 0, 0, vector.x),
+            new Vector4(0, 1, 0, vector.y),
+            new Vector4(0, 0, 1, vector.z),
+            new Vector4(0, 0, 0, 1)
+        );
     }
 
     public static MyMatrix4x4 Transpose(MyMatrix4x4 m)
     {
-        throw new NotImplementedException();
+        return m.transpose;
     }
     //
     // Resumen:
