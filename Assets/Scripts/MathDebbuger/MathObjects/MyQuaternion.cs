@@ -155,14 +155,14 @@ namespace CustomMath
         private float NormalizeAngle(float angle)
         {
             float newAngle = angle;
-            while (newAngle > 360)
+            while (newAngle > 360.0f)
             {
-                newAngle -= 360;
+                newAngle -= 360.0f;
             }
 
-            while (newAngle < 0)
+            while (newAngle < 0.0f)
             {
-                newAngle += 360;
+                newAngle += 360.0f;
             }
 
             return newAngle;
@@ -173,7 +173,7 @@ namespace CustomMath
             get => MyQuaternion.IdentityQuaternion;
         }
 
-        public MyQuaternion normalized
+        public MyQuaternion Normalized
         {
             get => MyQuaternion.Normalize(this);
         }
@@ -208,8 +208,8 @@ namespace CustomMath
         {
             // https://en.wikipedia.org/wiki/Slerp#:~:text=0%20and%C2%A01.-,Geometric%20slerp,-%5Bedit%5D
 
-            MyQuaternion normA = a.normalized;
-            MyQuaternion normB = b.normalized;
+            MyQuaternion normA = a.Normalized;
+            MyQuaternion normB = b.Normalized;
 
             float cosOmega = Dot(normA, normB);
 
@@ -381,7 +381,7 @@ namespace CustomMath
         {
             // It is an analogue implementation to vec 3 angle.
 
-            float dotValue = Dot(a.normalized, b.normalized);
+            float dotValue = Dot(a.Normalized, b.Normalized);
             float dotAbsValue = Mathf.Abs(dotValue);
 
             // It's multiplied by 2 to re-obtain the incidence we divided in the quaternion formula.
@@ -414,7 +414,7 @@ namespace CustomMath
 
         public void ToAngleAxis(out float angle, out Vec3 axis)
         {
-            MyQuaternion thisNormalized = this.normalized;
+            MyQuaternion thisNormalized = this.Normalized;
 
             // To obtain the angle we take it from the real part of the quaternion
             angle = 2.0f * Mathf.Acos(thisNormalized.w);
@@ -441,7 +441,7 @@ namespace CustomMath
         // Creates a rotation which rotates from fromDirection to toDirection.
         public void SetFromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
-            MyQuaternion newQuaternion = FromToRotation(fromDirection, toDirection).normalized;
+            MyQuaternion newQuaternion = FromToRotation(fromDirection, toDirection).Normalized;
 
             this.x = newQuaternion.x;
             this.y = newQuaternion.y;
