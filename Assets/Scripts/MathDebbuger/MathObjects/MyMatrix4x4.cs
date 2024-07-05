@@ -294,8 +294,9 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //
     // Devuelve:
     //     The resulting transformation matrix.
-    public static MyMatrix4x4 LookAt(Vector3 from, Vector3 to, Vector3 up) {
-        throw new NotImplementedException();
+    public static MyMatrix4x4 LookAt(Vec3 from, Vec3 to, Vec3 up)
+    {
+        return MyMatrix4x4.TRS(from, MyQuaternion.LookRotation(to - from, up), new Vec3(1f, 1f, 1f));
     }
     //
     // Resumen:
