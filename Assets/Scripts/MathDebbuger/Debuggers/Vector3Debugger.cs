@@ -205,6 +205,8 @@ namespace MathDebbuger
         }
         public static void TurnOffVector(string identifier)
         {
+            Debug.Log(ExistKey(identifier));
+            Debug.Log(identifier);
             if (ExistKey(identifier))
                 debuggers[identifier].enabled = false;
         }
