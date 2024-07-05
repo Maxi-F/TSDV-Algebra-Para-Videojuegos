@@ -459,7 +459,15 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   point:
     public Vec3 MultiplyPoint(Vec3 point)
     {
-        throw new NotImplementedException();
+        Vec3 vector3 = MultiplyPoint3x4(point);
+        
+        // TODO why is this being calculated? third row should be all zero
+        float num = 1f / ((float) ((double) this.m30 * (double) point.x + (double) this.m31 * (double) point.y + (double) this.m32 * (double) point.z) + this.m33);
+        vector3.x *= num;
+        vector3.y *= num;
+        vector3.z *= num;
+
+        return vector3;
     }
     //
     // Resumen:
@@ -469,7 +477,11 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   point:
     public Vec3 MultiplyPoint3x4(Vec3 point)
     {
-        throw new NotImplementedException();
+        return new Vec3(
+            (this.m00 * point.x + this.m01 * point.y + this.m02 * point.z) + this.m03,
+            (this.m10 * point.x + this.m11 * point.y + this.m12 * point.z) + this.m13,
+            (this.m20 * point.x + this.m21 * point.y + this.m22 * point.z) + this.m23
+        );
     }
     //
     // Resumen:
@@ -479,7 +491,13 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //   vector:
     public Vec3 MultiplyVector(Vec3 vector)
     {
-        throw new NotImplementedException();
+        // this doesnt change position as it is a direction
+        
+        return new Vec3(
+            (this.m00 * vector.x + this.m01 * vector.y + this.m02 * vector.z),
+            (this.m10 * vector.x + this.m11 * vector.y + this.m12 * vector.z),
+            (this.m20 * vector.x + this.m21 * vector.y + this.m22 * vector.z)
+        );
     }
     //
     // Resumen:
