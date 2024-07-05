@@ -145,6 +145,17 @@ namespace CustomMath
                 this.w = result.w;
             }
         }
+        // 1 1 -1 1
+        
+        public static MyQuaternion operator *(MyQuaternion lhs, MyQuaternion rhs)
+        {
+            return new MyQuaternion(
+                lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
+                lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x,
+                lhs.w * rhs.z	+ lhs.x * rhs.y	- lhs.y * rhs.x	+ lhs.z * rhs.w,
+                lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
+            );
+        }
 
         private Vec3 NormalizeAngles(Vec3 someEulerAngles)
         {
@@ -267,7 +278,7 @@ namespace CustomMath
         public static MyQuaternion AngleAxis(float angle, Vec3 axis)
         {
             Vec3 normalizedAxis = axis.normalized;
-
+            
             // Multiplies by the angle of incidence of the imaginary part of the quaternion
             normalizedAxis *= Mathf.Sin(angle * Mathf.Deg2Rad * 0.5f);
 
@@ -301,6 +312,16 @@ namespace CustomMath
             float m22 = forwardToUse.z;
             
             // Lastly, we have to do a conversion from the Rotation Matrix to a Quaternion.
+
+            return GetQuaternionFromRotationMatrix(
+                new Vec3(m00, m10, m20),
+                new Vec3(m10, m11, m12),
+                new Vec3(m20, m21, m22)
+            );
+        }
+
+        public static MyQuaternion GetQuaternionFromRotationMatrix(Vec3 column1, Vec3 column2, Vec3 column3)
+        {
             // The base of the code is this paper https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf (Thanks Michael Day!)
             
             // First we have to know which equations we should use, depending on which quaternion value we are
@@ -310,44 +331,44 @@ namespace CustomMath
             MyQuaternion result;
             float factor;
             
-            if (m22 < 0) // sqr(X) + sqr(Y) > 1/2, which is the same to say that |(X, Y)| > |(Z, W)| if normalized
+            if (column3.z < 0) // sqr(X) + sqr(Y) > 1/2, which is the same to say that |(X, Y)| > |(Z, W)| if normalized
             {
                 // We know for certain sqr(X) + sqr(Y) > 1/2, so we have to check which one is bigger to be certain its not zero
-                if (m00 > m11) // is X bigger than Y ?
+                if (column1.x > column2.y) // is X bigger than Y ?
                 {
                     // We know for certain X is not zero, so we take the x value from the trace.
-                    factor = 1 + m00 - m11 - m22; // sqr(X)
+                    factor = 1 + column1.x - column2.y - column3.z; // sqr(X)
                     
                     // And the result is the equations that have multiplied by 4X.
-                    result = new MyQuaternion(factor, m10 + m01, m20 + m02, m12 - m21);
+                    result = new MyQuaternion(factor, column2.x + column1.y, column3.x + column1.z, column2.z - column3.y);
                 }
                 else
                 {
                     // We know for certain Y is not zero
-                    factor = 1 - m00 + m11 - m22; // sqr(Y)
+                    factor = 1 - column1.x + column2.y - column3.z; // sqr(Y)
 
                     // And the result is the equations that have multiplied by 4Y.
-                    result = new MyQuaternion(m01 + m10, factor, m12 + m21, m20 - m02);
+                    result = new MyQuaternion(column1.y + column2.x, factor,  column2.z + column3.y, column3.x - column1.z);
                 }
             }
             else
             {
                 // We know for certain sqr(Z) + sqr(W) > 1/2, so we have to check which one is bigger to be certain its not zero
-                if (m00 < -m11) // Is Z bigger than W ?
+                if (column1.x < -column2.y) // Is Z bigger than W ?
                 {
                     // We know for certain Z is not zero
-                    factor = 1 - m00 - m11 + m22; // sqr(Z)
+                    factor = 1 - column1.x - column2.y + column3.z; // sqr(Z)
 
                     // And the result is the equations that are multiplied by 4Z.
-                    result = new MyQuaternion(m20 + m02, m12 + m21, factor, m01 - m10);
+                    result = new MyQuaternion(column3.x + column1.z, column2.z + column3.y, factor, column1.y - column2.x);
                 }
                 else
                 {
                     // We know for certain W is not zero
-                    factor = 1 + m00 + m11 + m22; // sqr(W)
+                    factor = 1 + column1.x + column2.y + column3.z; // sqr(W)
                     
                     // And the result is the equations that are multiplied by 4W.
-                    result = new MyQuaternion(m12 - m21, m20 - m02, m01 - m10, factor);
+                    result = new MyQuaternion(column2.z - column3.y, column3.x - column1.z, column1.y - column2.x, factor);
                 }
             }
             // Finally, we have to take out the factor that is in the quaternion.
@@ -419,7 +440,7 @@ namespace CustomMath
             // To obtain the angle we take it from the real part of the quaternion
             angle = 2.0f * Mathf.Acos(thisNormalized.w);
 
-            // To obtain the axis values, first we check if we are almost an idenity quaternion
+            // To obtain the axis values, first we check if we are almost an identity quaternion
             float magnitude = Mathf.Sqrt(1f - thisNormalized.w * thisNormalized.w);
 
             // if magnitude is almost zero, we return any axis, as there is no rotation
@@ -493,15 +514,7 @@ namespace CustomMath
 
         #region operators
 
-        public static MyQuaternion operator *(MyQuaternion lhs, MyQuaternion rhs)
-        {
-            return new MyQuaternion(
-                lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
-                lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x,
-                lhs.w * rhs.z	+ lhs.x * rhs.y	- lhs.y * rhs.x	+ lhs.z * rhs.w,
-                lhs.w * rhs.w	- lhs.x * rhs.x	- lhs.y * rhs.y - lhs.z * rhs.z
-            );
-        }
+
 
         public static MyQuaternion operator *(MyQuaternion q, float value)
         {

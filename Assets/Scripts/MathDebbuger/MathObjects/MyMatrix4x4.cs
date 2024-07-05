@@ -142,16 +142,43 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     // Resumen:
     //     Attempts to get a rotation quaternion from this matrix.
     public MyQuaternion rotation { get {
-            throw new NotImplementedException();
+            // https://math.stackexchange.com/questions/237369/given-this-transformation-matrix-how-do-i-decompose-it-into-translation-rotati
+            
+            // First we get the rotation matrix again by dividing the scales that affect every axis
+
+            Vec3 scales = lossyScale;
+
+            float rm00 = m00 / scales.x;
+            float rm10 = m10 / scales.x;
+            float rm20 = m20 / scales.x;
+            
+            float rm01 = m01 / scales.y;
+            float rm11 = m11 / scales.y;
+            float rm21 = m21 / scales.y;
+            
+            float rm02 = m02 / scales.z;
+            float rm12 = m12 / scales.z;
+            float rm22 = m22 / scales.z;
+
+            return MyQuaternion.GetQuaternionFromRotationMatrix(
+                new Vec3(rm00, rm10, rm20),
+                new Vec3(rm01, rm11, rm21),
+                new Vec3(rm02, rm12, rm22)
+            );
         }
     }
     //
     // Resumen:
     //     Attempts to get a scale value from the matrix. (Read Only)
-    public Vector3 lossyScale { get {
-            throw new NotImplementedException();
-        }
-    }
+    public Vec3 lossyScale =>
+        // https://math.stackexchange.com/questions/237369/given-this-transformation-matrix-how-do-i-decompose-it-into-translation-rotati
+        // Extracting scale is taking the first three column vectors and obtaining its magnitude (As that is what it gives after multiplying)
+        new(
+            new Vec3(m00, m10, m20).magnitude,
+            new Vec3(m01, m11, m21).magnitude,
+            new Vec3(m02, m12, m22).magnitude
+        );
+
     //
     // Resumen:
     //     Checks whether this is an identity matrix. (Read Only)
@@ -249,11 +276,6 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     public static MyMatrix4x4 Inverse(MyMatrix4x4 m)
     {
         return m.inverse;
-    }
-
-    public static bool Inverse3DAffine(MyMatrix4x4 input, ref MyMatrix4x4 result)
-    {
-        throw new NotImplementedException();
     }
 
     //
@@ -405,7 +427,7 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     //     Get position vector from the matrix.
     public Vec3 GetPosition()
     {
-        throw new NotImplementedException();
+        return new Vec3(m03, m13, m23);
     }
     //
     // Resumen:
@@ -578,7 +600,14 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
     }
 
     public bool ValidTRS() {
-        throw new NotImplementedException();
+        // A TRS is valid if the 3x3 top left matrix is an orthogonal matrix, 
+        // That is it is a square matrix and it's columns are orthonormal vectors.
+        
+        // To check this we can use the dot product between the columns.
+
+        return Vec3.Dot(new Vec3(m00, m10, m20), new Vec3(m01, m11, m21)) <= float.Epsilon &&
+               Vec3.Dot(new Vec3(m01, m11, m21), new Vec3(m02, m12, m22)) <= float.Epsilon &&
+               Vec3.Dot(new Vec3(m00, m10, m20), new Vec3(m02, m12, m22)) <= float.Epsilon;
     }
 
     public static MyMatrix4x4 operator *(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
@@ -620,9 +649,12 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
         return !(lhs == rhs);
     }
     
-    /*
-    public static Vector4 operator *(Matrix4x4 lhs, Vector4 vector) {
-        throw new NotImplementedException();
+    public static Vector4 operator *(MyMatrix4x4 lhs, Vector4 vector) {
+        return new Vector4(
+            lhs.m00 * vector.x + lhs.m01 * vector.y + lhs.m02 * vector.z + lhs.m03 * vector.w,
+            lhs.m10 * vector.x + lhs.m11 * vector.y + lhs.m12 * vector.z + lhs.m13 * vector.w,
+            lhs.m20 * vector.x + lhs.m21 * vector.y + lhs.m22 * vector.z + lhs.m23 * vector.w,
+            lhs.m30 * vector.x + lhs.m31 * vector.y + lhs.m32 * vector.z + lhs.m33 * vector.w
+            );
     }
-    */
 }
