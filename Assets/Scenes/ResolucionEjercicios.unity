@@ -353,8 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5041214ef4912e47b153cc476914508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excerciseNumber: 0
-  angle: 0
+  excerciseNumber: 2
+  angle: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

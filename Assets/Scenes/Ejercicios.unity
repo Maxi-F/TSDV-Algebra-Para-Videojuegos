@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 449595561}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.9460125, y: 2.2669778, z: -11.256513}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 1731222253, guid: 1d927669d67046449a5672d01b1587a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejercicio: 1
-  angle: 0
+  ejercicio: 2
+  angle: 1
 --- !u!1 &1300349082
 GameObject:
   m_ObjectHideFlags: 0
