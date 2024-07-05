@@ -658,6 +658,11 @@ public class MyMatrix4x4 : IEquatable<MyMatrix4x4>, IFormattable
             )
         );
     }
+
+    public bool Equals(object obj)
+    {
+        return this == (MyMatrix4x4)obj;
+    }
     
     public static bool operator ==(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
     {
