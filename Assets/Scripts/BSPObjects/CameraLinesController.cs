@@ -17,6 +17,7 @@ namespace BSPObjects
         
         [SerializeField] private float lineDistance = 10.0f;
         
+        // TODO Shouldn't have a "Points distance". What it should use is only the max binary search tries.
         [SerializeField] private float pointsDistance = 2.5f;
         
         [SerializeField] private UInt16 maxBinarySearchTries = 5;

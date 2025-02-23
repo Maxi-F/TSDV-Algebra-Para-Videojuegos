@@ -44,6 +44,21 @@ namespace BSPObjects
         {
             List<Room> roomsInLine = new List<Room>();
             
+            /*
+             * TODO it should not iterate by quantity of points to analyze.
+             * What should happen here is:
+             *  1. Get the max longitude of the line. It should be between where it collides with a wall without overture
+             *     and it's max longitude.
+             *  2. Get the point that is at the half of the segment, and get the room that is there.
+             *      a. If the room has a direct connection on the tree, then the room can be seen by the player. It then
+             *         does another binary search at half the length of the segment but on the latter end.
+             *      b. If the room is the same as the player, it does another binary search at half the length of the
+             *         segment but on the latter end.
+             *      c. If the room does not have a direct connection on the tree, then it does a binary search but on the
+             *         first half of the segment.
+             *
+             * THIS SHOULD BE FIXED BECAUSE IT IS DOING A SEQUENTIAL SEARCH AND IT'S WRONG.
+             */
             for(int i = startIndex; i < _points.Count; i++)
             {
                 if(currentRoom.IsPointInsideRoom(_points[i])) continue;
