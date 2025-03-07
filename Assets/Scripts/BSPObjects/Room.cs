@@ -68,10 +68,10 @@ public class Room : MonoBehaviour
         return Array.Find(_walls, wall => wall.HasLineInBetween(initialPoint, point));
     }
 
-    public Vec3 GetMostNearPointFromWalls(Vec3 start, Vec3 end)
+    public Vec3 GetMostNearPointFromWalls(Vec3 start, Vec3 end, out bool collidesWithOwnRoomWall)
     {
         Vec3 lastContact = end;
-
+        collidesWithOwnRoomWall = true;
         foreach (var wall in _walls)
         {
             if (wall.HasLineInBetween(start, lastContact))
@@ -80,6 +80,10 @@ public class Room : MonoBehaviour
                 float segmentLength = (lastContact - start).magnitude;
                 float newSegmentLength = (newLastContact - start).magnitude;
 
+                if (wall.IntersectsWithOverture(newLastContact))
+                {
+                    collidesWithOwnRoomWall = false;
+                }
                 lastContact = wall.IntersectsWithOverture(newLastContact) || newSegmentLength > segmentLength ? lastContact : newLastContact;
             }
         }

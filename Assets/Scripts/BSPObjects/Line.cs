@@ -13,6 +13,8 @@ namespace BSPObjects
         private Vec3 _contact;
         private List<Vec3> _points;
         private readonly int _maxTries;
+
+        private bool _isCollidingWithOwnRoomWall = false;
     
         public Line(Vec3 start, Vec3 end, Room currentRoom, int maxBinarySearchTries)
         {
@@ -31,7 +33,7 @@ namespace BSPObjects
             if(currentRoom == null) return end;
             if (currentRoom.IsPointInsideRoom(end)) return end;
 
-            return currentRoom.GetMostNearPointFromWalls(start, end);
+            return currentRoom.GetMostNearPointFromWalls(start, end, out _isCollidingWithOwnRoomWall);
         }
 
         public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms)
@@ -99,6 +101,7 @@ namespace BSPObjects
         private Room[] CalculateRoomsInLine(Room currentRoom, Room[] rooms)
         {
             List<Room> roomsInLine = new List<Room>();
+            if (_isCollidingWithOwnRoomWall) return roomsInLine.ToArray();
             _points = new List<Vec3>();
 
             Vec3 endPoint = _end;
@@ -189,7 +192,7 @@ namespace BSPObjects
 
         public void DrawLine()
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = _isCollidingWithOwnRoomWall ? Color.blue : Color.red;
             
             Gizmos.DrawLine(_start, _end);
             DrawPoints();
