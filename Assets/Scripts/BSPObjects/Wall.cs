@@ -7,6 +7,7 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     private MyPlane _plane;
+    [SerializeField] private float overtureDepth = 0.01f;
     [SerializeField] private float normalScale = 5.0f;
     [SerializeField] private MeshCollider[] overtures;
     
@@ -57,16 +58,16 @@ public class Wall : MonoBehaviour
 
     private bool CheckXYCollisionBetween(Vec3 point, Bounds bounds)
     {
-        return point.x >= bounds.center.x - bounds.extents.x &&
-               point.x <= bounds.center.x + bounds.extents.x &&
+        return bounds.extents.x > overtureDepth && point.x >= bounds.center.x - bounds.extents.x &&
+               point.x < bounds.center.x + bounds.extents.x &&
                point.y >= bounds.center.y - bounds.extents.y &&
                point.y <= bounds.center.y + bounds.extents.y;
     }
     
     private bool CheckZYCollissionBetween(Vec3 point, Bounds bounds)
     {
-        return point.z >= bounds.center.z - bounds.extents.z &&
-               point.z <= bounds.center.z + bounds.extents.z &&
+        return bounds.extents.z > overtureDepth && point.z >= bounds.center.z - bounds.extents.z &&
+               point.z < bounds.center.z + bounds.extents.z &&
                point.y >= bounds.center.y - bounds.extents.y &&
                point.y <= bounds.center.y + bounds.extents.y;
     }

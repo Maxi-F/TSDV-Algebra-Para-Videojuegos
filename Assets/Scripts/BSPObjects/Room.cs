@@ -77,7 +77,10 @@ public class Room : MonoBehaviour
             if (wall.HasLineInBetween(start, lastContact))
             {
                 wall.GetContactInWall(start, lastContact, out Vec3 newLastContact);
-                lastContact = wall.IntersectsWithOverture(newLastContact) ? lastContact : newLastContact;
+                float segmentLength = (lastContact - start).magnitude;
+                float newSegmentLength = (newLastContact - start).magnitude;
+
+                lastContact = wall.IntersectsWithOverture(newLastContact) || newSegmentLength > segmentLength ? lastContact : newLastContact;
             }
         }
 
