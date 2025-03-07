@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CustomMath;
 using UnityEngine;
@@ -30,6 +31,12 @@ namespace BSPObjects
         
         void Update()
         {
+            StartCoroutine(LateSetLines());
+        }
+
+        private IEnumerator LateSetLines()
+        {
+            yield return new WaitForEndOfFrame();
             SetLines();
         }
 
@@ -98,15 +105,11 @@ namespace BSPObjects
             }
         }
         
-        
-        private void OnDrawGizmos()
+        public void DrawLines()
         {
-            if (Application.isPlaying)
+            foreach (var line in _lines)
             {
-                foreach (var line in _lines)
-                {
-                    line.DrawLine();
-                }
+                line.DrawLine();
             }
         }
 

@@ -54,4 +54,13 @@ public class BspController : MonoBehaviour
             }
         }
     }
+    
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            cameraLinesController.DrawLines();
+        }
+    }
+
 }
