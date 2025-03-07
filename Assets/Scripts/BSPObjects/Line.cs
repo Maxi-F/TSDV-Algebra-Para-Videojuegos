@@ -7,37 +7,25 @@ namespace BSPObjects
 {
     public class Line
     {
-        private List<Vec3> _points;
         private Vec3 _start;
         private Vec3 _end;
-        private readonly int maxTries;
+        private readonly int _maxTries;
     
-        public Line(Vec3 start, Vec3 end, int pointsQuantity, int maxBinarySearchTries)
+        public Line(Vec3 start, Vec3 end, int maxBinarySearchTries)
         {
-            SetValues(start, end, pointsQuantity);
-            maxTries = maxBinarySearchTries;
+            SetValues(start, end);
+            _maxTries = maxBinarySearchTries;
         }   //asd
-        public void SetValues(Vec3 start, Vec3 end, int pointsQuantity)
+        public void SetValues(Vec3 start, Vec3 end)
         {
             _start = start;
             _end = end;
-
-            SetPoints(pointsQuantity);
         }
 
-        public void UpdateValues(Vec3 start, Vec3 end, int pointsQuantity)
+        public void UpdateValues(Vec3 start, Vec3 end)
         {
             _start = start;
             _end = end;
-            
-            DoWithPoints(pointsQuantity, (newPlace, i) => {_points[i] = new Vec3(newPlace);});
-        }
-
-        private void SetPoints(int pointsQuantity)
-        {
-            _points = new List<Vec3>();
-            
-            DoWithPoints(pointsQuantity, (newPlace, i) => {  _points.Add(new Vec3(newPlace)); });
         }
 
         public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms, int startIndex = 0)
@@ -59,6 +47,9 @@ namespace BSPObjects
              *
              * THIS SHOULD BE FIXED BECAUSE IT IS DOING A SEQUENTIAL SEARCH AND IT'S WRONG.
              */
+            
+            
+            /*
             for(int i = startIndex; i < _points.Count; i++)
             {
                 if(currentRoom.IsPointInsideRoom(_points[i])) continue;
@@ -90,13 +81,15 @@ namespace BSPObjects
                                 room,
                                 rooms,
                                 new []{_points[i - 1], _points[i]},
-                                this.maxTries
+                                this._maxTries
                                 ));
                         }
                     }
                 }
             }
 
+            return roomsInLine.ToArray();
+            */
             return roomsInLine.ToArray();
         }
         
@@ -148,19 +141,6 @@ namespace BSPObjects
             return connectedRooms.ToArray();
         }
 
-        private void DoWithPoints(int pointsQuantity, Action<Vec3, int> action)
-        {
-            float distance = Vec3.Distance(_start, _end);
-            float inBetweenPercentage = 1.0f / pointsQuantity;
-        
-            for (int i = 0; i <= pointsQuantity; i++)
-            {
-                Vec3 place = Vec3.Lerp(_start, _end, inBetweenPercentage * i);
-
-                action(place, i);
-            }
-        }
-
         public void DrawLine()
         {
             Gizmos.color = Color.red;
@@ -171,12 +151,13 @@ namespace BSPObjects
         
         private void DrawPoints()
         {
-            
+            /*
             foreach (var point in _points)
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawSphere(point.toVector3(), 0.2f);
             }
+            */
         }
     }
 }

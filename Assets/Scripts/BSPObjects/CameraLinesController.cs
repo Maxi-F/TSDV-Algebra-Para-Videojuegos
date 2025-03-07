@@ -56,37 +56,42 @@ namespace BSPObjects
         private void SetLines()
         {
             _lines = new List<Line>();
-            DoWithLines((newPosition, newEndPosition, pointsQuantity, i) =>
+            DoWithLines((newPosition, newEndPosition, i) =>
             {
-                _lines.Add(new Line(newPosition, newEndPosition, pointsQuantity, maxBinarySearchTries));
+                _lines.Add(new Line(newPosition, newEndPosition, maxBinarySearchTries));
             });
         }
 
         private void UpdateLines()
         {
-            DoWithLines((newPosition, newEndPosition, pointsQuantity, i) =>
+            DoWithLines((newPosition, newEndPosition, i) =>
             {
-                _lines[i].UpdateValues(newPosition, newEndPosition, pointsQuantity);
+                _lines[i].UpdateValues(newPosition, newEndPosition);
             });
         }
 
-        private void DoWithLines(Action<Vec3, Vec3, int, int> action)
+        private void DoWithLines(Action<Vec3, Vec3, int> action)
         {
             float aspectRatio = screenWidth / screenHeight;
             _verticalFieldOfViewAngle = fieldOfViewAngle / aspectRatio;
 
-            int linesQuantityWidth = (int) (fieldOfViewAngle / amplitudeBetweenLines);
-            int linesQuantityHeight = (int) (_verticalFieldOfViewAngle / amplitudeBetweenLines);
+            int linesInAngleQuantityWidth = (int) (fieldOfViewAngle / amplitudeBetweenLines);
+            int linesInAngleQuantityHeight = (int) (_verticalFieldOfViewAngle / amplitudeBetweenLines);
             
             float angleToUseInWidth = 90 - fieldOfViewAngle / 2;
             
-            for (int i = 0; i < linesQuantityWidth; i++)
+            Debug.Log($"{linesInAngleQuantityWidth}, {fieldOfViewAngle}, {amplitudeBetweenLines}");
+            
+            // +1 because we also count the line that is in angle 0
+            for (int i = 0; i < linesInAngleQuantityWidth + 1; i++)
             {
                 float xDistance = Mathf.Cos(angleToUseInWidth * Mathf.Deg2Rad) * lineDistance;
                 float zDistance = Mathf.Sin(angleToUseInWidth * Mathf.Deg2Rad) * lineDistance;
 
                 float angleToUseInHeight = - _verticalFieldOfViewAngle / 2;
-                for (int j = 0; j < linesQuantityHeight; j++)
+                
+                // Same as horizontal lines, +1 because we also count the line that is in angle 0
+                for (int j = 0; j < linesInAngleQuantityHeight + 1; j++)
                 {
                     float yDistance = Mathf.Sin(angleToUseInHeight * Mathf.Deg2Rad) * lineDistance;
                     
@@ -96,7 +101,7 @@ namespace BSPObjects
                                       zDistance * transform.forward;
                     
                     
-                    action(new Vec3(transform.position), new Vec3(toPoint), (int)(lineDistance / pointsDistance), i);
+                    action(new Vec3(transform.position), new Vec3(toPoint), i);
 
                     angleToUseInHeight += amplitudeBetweenLines;
                 }
