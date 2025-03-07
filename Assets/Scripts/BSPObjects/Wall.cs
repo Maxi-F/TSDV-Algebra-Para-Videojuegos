@@ -10,6 +10,7 @@ public class Wall : MonoBehaviour
     [SerializeField] private float overtureDepth = 0.01f;
     [SerializeField] private float normalScale = 5.0f;
     [SerializeField] private MeshCollider[] overtures;
+    [SerializeField] private Room roomThatConnects;
     
     void Start()
     {
@@ -70,5 +71,10 @@ public class Wall : MonoBehaviour
                point.z < bounds.center.z + bounds.extents.z &&
                point.y >= bounds.center.y - bounds.extents.y &&
                point.y <= bounds.center.y + bounds.extents.y;
+    }
+
+    public bool HasOvertureWith(Room nonAdjacentRoom)
+    {
+        return nonAdjacentRoom == roomThatConnects;
     }
 }

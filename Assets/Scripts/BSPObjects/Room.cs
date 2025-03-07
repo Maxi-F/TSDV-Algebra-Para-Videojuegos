@@ -70,24 +70,36 @@ public class Room : MonoBehaviour
 
     public Vec3 GetMostNearPointFromWalls(Vec3 start, Vec3 end, out bool collidesWithOwnRoomWall)
     {
-        Vec3 lastContact = end;
+        Vec3 lastContactToReturn = end;
         collidesWithOwnRoomWall = true;
+        
         foreach (var wall in _walls)
         {
-            if (wall.HasLineInBetween(start, lastContact))
+            if (wall.HasLineInBetween(start, lastContactToReturn))
             {
-                wall.GetContactInWall(start, lastContact, out Vec3 newLastContact);
-                float segmentLength = (lastContact - start).magnitude;
+                wall.GetContactInWall(start, lastContactToReturn, out Vec3 newLastContact);
+                float segmentLength = (lastContactToReturn - start).magnitude;
                 float newSegmentLength = (newLastContact - start).magnitude;
 
                 if (wall.IntersectsWithOverture(newLastContact))
                 {
                     collidesWithOwnRoomWall = false;
+                    lastContactToReturn = end;
+                    continue;
                 }
-                lastContact = wall.IntersectsWithOverture(newLastContact) || newSegmentLength > segmentLength ? lastContact : newLastContact;
+                lastContactToReturn = newSegmentLength > segmentLength ? lastContactToReturn : newLastContact;
             }
         }
 
-        return lastContact;
+        return lastContactToReturn;
+    }
+
+    public bool CheckWallOverturesWith(Vec3 startingPoint, Vec3 endPoint, Room nonAdjacentRoom)
+    {
+        Wall wallToCheck = Array.Find(_walls, wall => wall.HasOvertureWith(nonAdjacentRoom));
+
+        if (!wallToCheck || !wallToCheck.GetContactInWall(startingPoint, endPoint, out Vec3 contact)) return false;
+
+        return wallToCheck.IntersectsWithOverture(contact);
     }
 }
