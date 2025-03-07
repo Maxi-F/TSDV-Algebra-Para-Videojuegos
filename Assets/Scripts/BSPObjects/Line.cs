@@ -9,23 +9,26 @@ namespace BSPObjects
     {
         private Vec3 _start;
         private Vec3 _end;
+        private Vec3 _contact;
         private readonly int _maxTries;
     
-        public Line(Vec3 start, Vec3 end, int maxBinarySearchTries)
+        public Line(Vec3 start, Vec3 end, Room currentRoom, int maxBinarySearchTries)
         {
-            SetValues(start, end);
+            SetValues(start, end, currentRoom);
             _maxTries = maxBinarySearchTries;
-        }   //asd
-        public void SetValues(Vec3 start, Vec3 end)
+        }
+        public void SetValues(Vec3 start, Vec3 end, Room currentRoom)
         {
             _start = start;
-            _end = end;
+            _end = GetEndValue(start, end, currentRoom);
         }
 
-        public void UpdateValues(Vec3 start, Vec3 end)
+        private Vec3 GetEndValue(Vec3 start, Vec3 end, Room currentRoom)
         {
-            _start = start;
-            _end = end;
+            if(currentRoom == null) return end;
+            if (currentRoom.IsPointInsideRoom(end)) return end;
+
+            return currentRoom.GetMostNearPointFromWalls(start, end);
         }
 
         public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms, int startIndex = 0)
@@ -151,13 +154,10 @@ namespace BSPObjects
         
         private void DrawPoints()
         {
-            /*
-            foreach (var point in _points)
-            {
+            
                 Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(point.toVector3(), 0.2f);
-            }
-            */
+                Gizmos.DrawSphere(_contact.toVector3(), 0.2f);
+           
         }
     }
 }

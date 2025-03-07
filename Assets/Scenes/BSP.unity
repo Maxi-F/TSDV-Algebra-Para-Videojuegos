@@ -726,7 +726,6 @@ MonoBehaviour:
   fieldOfViewAngle: 90
   amplitudeBetweenLines: 15
   lineDistance: 15
-  pointsDistance: 3
   maxBinarySearchTries: 5
 --- !u!1001 &947353054
 PrefabInstance:

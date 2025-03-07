@@ -207,6 +207,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_with_back_door
       objectReference: {fileID: 0}
+    - target: {fileID: 7576104828911638890, guid: b344f62550de6ab4b8b0ffca39eb53eb, type: 3}
+      propertyPath: m_TagString
+      value: Wall4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -268,6 +272,10 @@ PrefabInstance:
     - target: {fileID: 7576104828911638890, guid: b344f62550de6ab4b8b0ffca39eb53eb, type: 3}
       propertyPath: m_Name
       value: Wall_with_door (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576104828911638890, guid: b344f62550de6ab4b8b0ffca39eb53eb, type: 3}
+      propertyPath: m_TagString
+      value: Wall3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -331,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_with_door
       objectReference: {fileID: 0}
+    - target: {fileID: 7576104828911638890, guid: b344f62550de6ab4b8b0ffca39eb53eb, type: 3}
+      propertyPath: m_TagString
+      value: Wall2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -352,6 +364,10 @@ PrefabInstance:
     - target: {fileID: 2765851876489091145, guid: 9fafd8a67373aff438b2b453ff12812b, type: 3}
       propertyPath: m_Name
       value: left_wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2765851876489091145, guid: 9fafd8a67373aff438b2b453ff12812b, type: 3}
+      propertyPath: m_TagString
+      value: Wall1
       objectReference: {fileID: 0}
     - target: {fileID: 8196595291675818336, guid: 9fafd8a67373aff438b2b453ff12812b, type: 3}
       propertyPath: m_LocalPosition.x

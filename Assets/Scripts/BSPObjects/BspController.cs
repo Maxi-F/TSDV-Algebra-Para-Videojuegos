@@ -31,6 +31,7 @@ public class BspController : MonoBehaviour
             if (room && playerPosition && room.IsPlayerInsideRoom(playerPosition))
             {
                 _currentRoom = room;
+                cameraLinesController.SetCurrentRoom(_currentRoom);
             }
         }
     }

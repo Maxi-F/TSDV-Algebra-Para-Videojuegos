@@ -67,4 +67,20 @@ public class Room : MonoBehaviour
     {
         return Array.Find(_walls, wall => wall.HasLineInBetween(initialPoint, point));
     }
+
+    public Vec3 GetMostNearPointFromWalls(Vec3 start, Vec3 end)
+    {
+        Vec3 lastContact = end;
+
+        foreach (var wall in _walls)
+        {
+            if (wall.HasLineInBetween(start, lastContact))
+            {
+                wall.GetContactInWall(start, lastContact, out Vec3 newLastContact);
+                lastContact = wall.IntersectsWithOverture(newLastContact) ? lastContact : newLastContact;
+            }
+        }
+
+        return lastContact;
+    }
 }

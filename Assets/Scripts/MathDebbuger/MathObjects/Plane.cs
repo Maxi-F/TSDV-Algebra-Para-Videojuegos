@@ -72,6 +72,43 @@ namespace CustomMath
 
         #region Functions
 
+        /*
+         * NEW FUNCTION FOR MYPLANE (Not in assignment)
+         *
+         * I want to add a calculation to know the contact point of a segment that passes through a plane.
+         *
+         * A Plane follows the equation: N . (X - A) = 0
+         * A segment (or a line) would follow the equation S = Point + x * Direction (Where a segment would be finite)
+         *
+         * If we want to know the contact point of a segment then we would do:
+         *   N . (S - A) = 0 -> As this should be true
+         *   NxSx + NySy + NzSz - (NxAx + NyAy + NzAz) = 0
+         *   NxSx + NySy + NzSz = Dis
+         *   Nx(px + x * Dx) + Ny(py + x * Dy) + Nz(pz + x * Dz) = Dis -> x is a scalar in the segment equation
+         *   NxPx + NyPy + NzPz + Nx(x*Dx) + Ny(x*Dy) + Nz(z*Dz) = Dis
+         *   N . P + (N . D)x = Dis
+         *   x = (Dis - N.P) / N . D
+         *
+         * Then we replace x in the line equation and we have the intersection.
+         *
+         * To be sure, we should check that the dot product of the normal and the segment is not zero, to not divide by zero.
+         */
+        public bool LinePlaneContact(Vec3 segmentOrigin, Vec3 segment, out Vec3 contact)
+        {
+            if (Vec3.Dot(_normal, segment) == 0)
+            {
+                contact = Vec3.Zero;
+                return false;
+            };
+
+            // Our D is negative in our plane function, so we have to negate it in this part
+            float scalarForSegment = (-_distance - Vec3.Dot(_normal, segmentOrigin)) / Vec3.Dot(_normal, segment);
+            
+            contact = segmentOrigin + segment * scalarForSegment;
+
+            return true;
+        }
+        
         // If we want to translate the plane, we would want all points from the translation offset
         // to be on the plane:
         // 

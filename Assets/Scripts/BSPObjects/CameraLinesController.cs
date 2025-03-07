@@ -14,16 +14,14 @@ namespace BSPObjects
         private float _verticalFieldOfViewAngle;
         
         [SerializeField] private float amplitudeBetweenLines = 5.0f;
-        
+
         [SerializeField] private float lineDistance = 10.0f;
-        
-        // TODO Shouldn't have a "Points distance". What it should use is only the max binary search tries.
-        [SerializeField] private float pointsDistance = 2.5f;
         
         [SerializeField] private UInt16 maxBinarySearchTries = 5;
         
         private float _amplitudeDistance;
-        private List<Line> _lines = new List<Line>(); 
+        private List<Line> _lines = new List<Line>();
+        private Room _currentRoom;
         
         void Start()
         {
@@ -58,15 +56,7 @@ namespace BSPObjects
             _lines = new List<Line>();
             DoWithLines((newPosition, newEndPosition, i) =>
             {
-                _lines.Add(new Line(newPosition, newEndPosition, maxBinarySearchTries));
-            });
-        }
-
-        private void UpdateLines()
-        {
-            DoWithLines((newPosition, newEndPosition, i) =>
-            {
-                _lines[i].UpdateValues(newPosition, newEndPosition);
+                _lines.Add(new Line(newPosition, newEndPosition, _currentRoom, maxBinarySearchTries));
             });
         }
 
@@ -80,9 +70,7 @@ namespace BSPObjects
             
             float angleToUseInWidth = 90 - fieldOfViewAngle / 2;
             
-            Debug.Log($"{linesInAngleQuantityWidth}, {fieldOfViewAngle}, {amplitudeBetweenLines}");
-            
-            // +1 because we also count the line that is in angle 0
+            // +1 because we also count the line that is in angle 0 on X
             for (int i = 0; i < linesInAngleQuantityWidth + 1; i++)
             {
                 float xDistance = Mathf.Cos(angleToUseInWidth * Mathf.Deg2Rad) * lineDistance;
@@ -120,6 +108,11 @@ namespace BSPObjects
                     line.DrawLine();
                 }
             }
+        }
+
+        public void SetCurrentRoom(Room currentRoom)
+        {
+            _currentRoom = currentRoom;
         }
     }
 }

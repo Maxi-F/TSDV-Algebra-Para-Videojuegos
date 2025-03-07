@@ -50,6 +50,11 @@ public class Wall : MonoBehaviour
                                CheckZYCollissionBetween(point, overture.bounds));
     }
 
+    public bool GetContactInWall(Vec3 startPoint, Vec3 endPoint, out Vec3 contact)
+    {
+        return _plane.LinePlaneContact(startPoint, endPoint - startPoint, out contact);
+    }
+
     private bool CheckXYCollisionBetween(Vec3 point, Bounds bounds)
     {
         return point.x >= bounds.center.x - bounds.extents.x &&
