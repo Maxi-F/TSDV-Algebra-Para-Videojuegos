@@ -140,8 +140,7 @@ namespace CustomMath
              *  explanation: https://calculo21.com/el-producto-punto/#:~:text=Evaluaci%C3%B3n%20de%20un%20producto%20punto,%E2%88%A5%E2%88%A5v%E2%88%A5cos%CE%B8.
              */
             
-            // TODO multiply by Rad2Deg as this returns radians
-            return MathF.Acos(Dot(from, to) / (from.magnitude * to.magnitude));
+            return MathF.Acos(Dot(from, to) / (from.magnitude * to.magnitude)) * Mathf.Rad2Deg;
         }
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
