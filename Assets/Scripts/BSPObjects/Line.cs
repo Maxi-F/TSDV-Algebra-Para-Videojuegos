@@ -15,7 +15,9 @@ namespace BSPObjects
         private readonly int _maxTries;
 
         private bool _isCollidingWithOwnRoomWall = false;
-    
+        private bool _isCollidingWithAdjacentWall = false;
+        private bool _isAddingAdjacent = false;
+        
         public Line(Vec3 start, Vec3 end, Room currentRoom, int maxBinarySearchTries)
         {
             SetValues(start, end, currentRoom);
@@ -39,48 +41,6 @@ namespace BSPObjects
         public Room[] GetRoomsInLine(Room currentRoom, Room[] rooms)
         {
             return CalculateRoomsInLine(currentRoom, rooms);
-            
-            /*
-            for(int i = startIndex; i < _points.Count; i++)
-            {
-                if(currentRoom.IsPointInsideRoom(_points[i])) continue;
-               
-                foreach (var room in rooms)
-                {
-                    if (room.IsPointInsideRoom(_points[i]))
-                    {
-                        if (!roomsInLine.Exists(roomAlreadyInLine => roomAlreadyInLine == room))
-                        {
-                            Wall intersectingWall = room.GetIntersectedWall(i - 1 == -1 ? _points[0] : _points[i - 1], _points[i]);
-                            if (!intersectingWall ||
-                                (!intersectingWall.IntersectsWithOverture(i - 1 == -1 ? _points[0] : _points[i - 1]) && 
-                                 !intersectingWall.IntersectsWithOverture(_points[i]))) return roomsInLine.ToArray();
-                        }
-                        
-                        if (currentRoom.IsRoomAdjacent(room) || roomsInLine.Exists(adjacentRoom => adjacentRoom.IsRoomAdjacent(room)))
-                        {
-                            roomsInLine.Add(room);
-
-                            Room[] adjacentRoomsToSeenOne = GetRoomsInLine(room, rooms, i);
-                            roomsInLine.AddRange(adjacentRoomsToSeenOne);
-                        }
-                        else
-                        {
-                            if (i == 0) continue;
-                            roomsInLine.AddRange(GetRoomsConnection(
-                                currentRoom,
-                                room,
-                                rooms,
-                                new []{_points[i - 1], _points[i]},
-                                this._maxTries
-                                ));
-                        }
-                    }
-                }
-            }
-
-            return roomsInLine.ToArray();
-            */
         }
 
         /*
@@ -101,6 +61,7 @@ namespace BSPObjects
         private Room[] CalculateRoomsInLine(Room currentRoom, Room[] rooms)
         {
             List<Room> roomsInLine = new List<Room>();
+            List<Room> nonAdjacentRooms = new List<Room>();
             if (_isCollidingWithOwnRoomWall) return roomsInLine.ToArray();
             _points = new List<Vec3>();
 
@@ -113,12 +74,37 @@ namespace BSPObjects
                 _points.Add(pointToCalculate);
                 bool calculateLatter = true;
                 Room roomInPoint = rooms.ToList().Find(room => room.IsPointInsideRoom(pointToCalculate));
-                
-                if (roomInPoint && currentRoom.IsRoomAdjacent(roomInPoint))
+
+                if (roomInPoint)
                 {
-                    roomsInLine.Add(roomInPoint);
-                    calculateLatter = retriesLeft != _maxTries;
-                } else if (currentRoom != roomInPoint)
+                    if (currentRoom.IsRoomAdjacent(roomInPoint) && !roomsInLine.Contains(roomInPoint))
+                    {
+                        roomsInLine.Add(roomInPoint);
+                        foreach (Room nonAdjacentRoom in nonAdjacentRooms.ToList())
+                        {
+                            if (roomInPoint.IsRoomAdjacent(nonAdjacentRoom))
+                            {
+                                if (roomInPoint.CheckWallOverturesWith(startingPoint, endPoint, nonAdjacentRoom))
+                                {
+                                    roomsInLine.Add(nonAdjacentRoom);
+                                    nonAdjacentRooms.Remove(nonAdjacentRoom);
+                                    _isAddingAdjacent = true;
+                                }
+                                else
+                                {
+                                    _isCollidingWithAdjacentWall = true;
+                                    break;
+                                }
+                            }
+                        }
+                        calculateLatter = retriesLeft != _maxTries;
+                    } else if (currentRoom != roomInPoint && !nonAdjacentRooms.Contains(roomInPoint))
+                    {
+                        calculateLatter = false;
+                        nonAdjacentRooms.Add(roomInPoint);
+                    }
+                }
+                else
                 {
                     calculateLatter = false;
                 }
@@ -140,59 +126,12 @@ namespace BSPObjects
             return roomsInLine.ToArray();
         }
 
-        /*
-        private Room[] GetRoomsConnection(
-            Room initialRoom,
-            Room endRoom, 
-            Room[] rooms,
-            Vec3[] pointsToCheckInBetween,
-            int maxBinarySearchTries
-            )
-        {
-            List<Room> connectedRooms = new List<Room>();
-            if (maxBinarySearchTries <= 0) return connectedRooms.ToArray();
-            
-            Vec3 pointInBetween = Vec3.Lerp(pointsToCheckInBetween[0], pointsToCheckInBetween[1], 0.5f);
-
-            if (initialRoom.IsPointInsideRoom(pointInBetween))
-            {
-                return GetRoomsConnection(
-                    initialRoom,
-                    endRoom,
-                    rooms,
-                    new[] { pointInBetween, pointsToCheckInBetween[1] },
-                    maxBinarySearchTries - 1)
-                    ;
-            } else if (endRoom.IsPointInsideRoom(pointInBetween))
-            {
-                return GetRoomsConnection(
-                    initialRoom,
-                    endRoom,
-                    rooms,
-                    new[] { pointsToCheckInBetween[1], pointInBetween },
-                    maxBinarySearchTries - 1
-                    );
-            }
-            
-            foreach (var room in rooms)
-            {
-                if (room.IsPointInsideRoom(pointInBetween))
-                {
-                    if (initialRoom.IsRoomAdjacent(room) && room.IsRoomAdjacent(endRoom))
-                    {
-                        Room[] roomsToAdd = new[] { initialRoom, room, endRoom };
-                        connectedRooms.AddRange(roomsToAdd);
-                    }
-                }
-            }
-            
-            return connectedRooms.ToArray();
-        }
-        */
-
         public void DrawLine()
         {
-            Gizmos.color = _isCollidingWithOwnRoomWall ? Color.blue : Color.red;
+            Gizmos.color = _isCollidingWithOwnRoomWall ? Color.red : 
+                _isCollidingWithAdjacentWall ? Color.magenta : 
+                _isAddingAdjacent ? Color.green :
+                Color.blue;
             
             Gizmos.DrawLine(_start, _end);
             DrawPoints();
@@ -209,10 +148,6 @@ namespace BSPObjects
                 {
                     Gizmos.DrawSphere(point.toVector3(), 0.2f);
                 }
-
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(_contact.toVector3(), 0.3f);
-           
         }
     }
 }

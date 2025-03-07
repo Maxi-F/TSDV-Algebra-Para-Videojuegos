@@ -273,6 +273,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[0]
       value: 
       objectReference: {fileID: 3195810586552979090}
+    - target: {fileID: 1925211001846675698, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 3195810586552979090}
     - target: {fileID: 5219132557968643714, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
       propertyPath: m_Name
       value: RoomH
@@ -342,6 +346,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[0]
       value: 
       objectReference: {fileID: 2029946875}
+    - target: {fileID: 1925211001846675698, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 496049375}
     - target: {fileID: 2912290138144910585, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.2
@@ -495,6 +503,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1236325016043417293, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
       propertyPath: _adjacentRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 3195810586552979090}
+    - target: {fileID: 1925211001846675698, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
+      propertyPath: roomThatConnects
       value: 
       objectReference: {fileID: 3195810586552979090}
     - target: {fileID: 5219132557968643714, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
@@ -791,6 +803,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[2]
       value: 
       objectReference: {fileID: 3195810586552979090}
+    - target: {fileID: 1925211001846675698, guid: 47e525cb3265c294b94ab2d88b022674, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 2029946875}
     - target: {fileID: 5219132557968643714, guid: 47e525cb3265c294b94ab2d88b022674, type: 3}
       propertyPath: m_Name
       value: RoomC
@@ -799,6 +815,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoomC
       objectReference: {fileID: 0}
+    - target: {fileID: 7303286097474117189, guid: 47e525cb3265c294b94ab2d88b022674, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 3195810586552979090}
+    - target: {fileID: 9197673488669923756, guid: 47e525cb3265c294b94ab2d88b022674, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1031574525}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -897,6 +921,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[1]
       value: 
       objectReference: {fileID: 496049375}
+    - target: {fileID: 1925211001846675698, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1016203436}
     - target: {fileID: 2912290138144910585, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.28
@@ -909,6 +937,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoomD
       objectReference: {fileID: 0}
+    - target: {fileID: 7303286097474117189, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 496049375}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -974,6 +1006,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[1]
       value: 
       objectReference: {fileID: 1819850041}
+    - target: {fileID: 1925211001846675698, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1016203436}
     - target: {fileID: 5219132557968643714, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
       propertyPath: m_Name
       value: RoomB
@@ -982,6 +1018,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoomB
       objectReference: {fileID: 0}
+    - target: {fileID: 7303286097474117189, guid: 093e073a525d08c459c3d9bec569afbe, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1819850041}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1076,6 +1116,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[0]
       value: 
       objectReference: {fileID: 3195810586552979090}
+    - target: {fileID: 1925211001846675698, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 3195810586552979090}
     - target: {fileID: 5219132557968643714, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
       propertyPath: m_Name
       value: RoomI
@@ -1149,6 +1193,10 @@ PrefabInstance:
       propertyPath: _adjacentRooms.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1925211001846675698, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1031574525}
     - target: {fileID: 5219132557968643714, guid: 61a33dcba1f2ee74d80af2b8dcc48c56, type: 3}
       propertyPath: m_Name
       value: RoomA
@@ -1185,6 +1233,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2680680060266252248, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1183876412}
     - target: {fileID: 3052100436466775651, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
       propertyPath: _adjacentRooms.Array.size
       value: 4
@@ -1213,6 +1265,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoomF
       objectReference: {fileID: 0}
+    - target: {fileID: 5286906680564340200, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1016203436}
     - target: {fileID: 7865203854796410197, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1253,6 +1309,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9069545494446712201, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 1774023206}
+    - target: {fileID: 9077979020566988531, guid: d8d8c457d15cbfb48844c06960300694, type: 3}
+      propertyPath: roomThatConnects
+      value: 
+      objectReference: {fileID: 556149992}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1269,8 +1333,8 @@ SceneRoots:
   - {fileID: 1506164586}
   - {fileID: 271304698}
   - {fileID: 8190056103022835143}
-  - {fileID: 403034899}
-  - {fileID: 912346176}
   - {fileID: 2057591632}
   - {fileID: 673575757}
   - {fileID: 238340891}
+  - {fileID: 403034899}
+  - {fileID: 912346176}
